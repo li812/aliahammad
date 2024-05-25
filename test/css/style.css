@@ -100,7 +100,7 @@ h1, h2, h3, h4, h5, h6, figure {
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(0, 217, 255, 0.781);
+  background: rgba(0, 217, 255, 0.59);
 }
 #fh5co-header .display-t,
 .fh5co-cover .display-t {
@@ -429,6 +429,7 @@ h1, h2, h3, h4, h5, h6, figure {
   font-size: 12px;
   letter-spacing: 2px;
 }
+x : rgb(0, 217, 255);
 
 .timeline {
   list-style: none;
