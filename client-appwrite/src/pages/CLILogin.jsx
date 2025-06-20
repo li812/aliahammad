@@ -8,14 +8,6 @@ const CLILogin = () => {
   const timeoutRefs = useRef([]);
   const MAX_OUTPUT_LINES = 100;
   
-  // Check if already authenticated
-  useEffect(() => {
-    if (isAuthenticated) {
-      addOutput('Already authenticated. Redirecting to dashboard...', 'info');
-      setTimeout(() => navigate('/dashboard'), 1000);
-    }
-  }, [isAuthenticated, navigate]);
-
   const [output, setOutput] = useState([]);
   const [currentInput, setCurrentInput] = useState('');
   const [step, setStep] = useState('welcome'); // welcome, email, password, authenticating
@@ -26,8 +18,16 @@ const CLILogin = () => {
   const terminalRef = useRef();
   const inputRef = useRef();
 
+  // Check if already authenticated
   useEffect(() => {
-    // Initial welcome message
+    if (isAuthenticated) {
+      addOutput('Already authenticated. Redirecting to dashboard...', 'info');
+      setTimeout(() => navigate('/dashboard'), 1000);
+    }
+  }, [isAuthenticated, navigate]);
+
+  useEffect(() => {
+    // Clean initial welcome message - no auto login command
     const initialOutput = [
       { type: 'system', text: 'Ali Ahammad Portfolio Console v2.1.0' },
       { type: 'system', text: 'Copyright (c) 2025 Ali Ahammad. All rights reserved.' },
@@ -35,10 +35,8 @@ const CLILogin = () => {
       { type: 'info', text: 'Initializing secure authentication terminal...' },
       { type: 'success', text: 'Authentication system ready.' },
       { type: 'system', text: '' },
-      { type: 'prompt', text: 'Please enter your admin credentials to access the dashboard.' },
-      { type: 'system', text: '' },
-      { type: 'input', text: 'admin@console:~$ login' },
-      { type: 'prompt', text: 'Email:' }
+      { type: 'prompt', text: 'Welcome to the admin console. Type "help" for available commands.' },
+      { type: 'system', text: '' }
     ];
     
     setOutput(initialOutput);
@@ -56,54 +54,64 @@ const CLILogin = () => {
     }
   }, [output]);
 
+  useEffect(() => {
+    // Cleanup timeouts on unmount
+    return () => {
+      timeoutRefs.current.forEach(timeout => clearTimeout(timeout));
+    };
+  }, []);
+
   const addOutput = (text, type = 'system') => {
     setOutput(prev => {
       const newOutput = [...prev, { type, text }];
-      // Keep only last MAX_OUTPUT_LINES
       return newOutput.slice(-MAX_OUTPUT_LINES);
     });
   };
 
-  const addOutputWithDelay = (text, type = 'system', delay = 0) => {
-    const timeout = setTimeout(() => {
-      setOutput(prev => [...prev, { type, text }]);
-    }, delay);
-    
-    timeoutRefs.current.push(timeout);
-    return timeout;
-  };
-
-  const resetToLogin = () => {
-    setStep('email');
+  const resetToWelcome = () => {
+    setStep('welcome');
     setCredentials({ email: '', password: '' });
     setCurrentInput('');
     addOutput('', 'system');
+    addOutput('Authentication cancelled. Type "login" to try again.', 'prompt');
+  };
+
+  const resetToEmail = () => {
+    setStep('email');
+    setCredentials({ email: '', password: '' });
+    setCurrentInput('');
     addOutput('Please try again.', 'prompt');
     addOutput('Email:', 'prompt');
   };
 
   const handleSpecialCommands = (command) => {
-    switch (command.toLowerCase()) {
+    const cmd = command.toLowerCase();
+    
+    switch (cmd) {
       case 'help':
         addOutput('Available commands:', 'info');
         addOutput('  login     - Start authentication process', 'system');
         addOutput('  clear     - Clear terminal', 'system');
         addOutput('  about     - About this system', 'system');
         addOutput('  exit      - Return to portfolio', 'system');
+        addOutput('  cancel    - Cancel current operation', 'system');
         addOutput('', 'system');
         return true;
       
       case 'clear':
         setOutput([
           { type: 'system', text: 'Ali Ahammad Portfolio Console v2.1.0' },
-          { type: 'prompt', text: 'Terminal cleared. Type "login" to authenticate.' }
+          { type: 'prompt', text: 'Terminal cleared. Type "help" for commands.' }
         ]);
+        setStep('welcome');
+        setCredentials({ email: '', password: '' });
         return true;
       
       case 'about':
         addOutput('Ali Ahammad Portfolio Admin Console', 'info');
         addOutput('Built with React + Appwrite Backend', 'system');
         addOutput('Secure authentication terminal interface', 'system');
+        addOutput('Version 2.1.0 - Terminal UI', 'system');
         addOutput('', 'system');
         return true;
       
@@ -112,13 +120,24 @@ const CLILogin = () => {
         setTimeout(() => navigate('/'), 1000);
         return true;
       
+      case 'cancel':
+        if (step !== 'welcome') {
+          resetToWelcome();
+          return true;
+        }
+        addOutput('Nothing to cancel.', 'error');
+        return true;
+      
       case 'login':
         if (step === 'welcome') {
+          addOutput('Starting authentication process...', 'info');
           addOutput('Email:', 'prompt');
           setStep('email');
           return true;
+        } else {
+          addOutput('Authentication already in progress. Type "cancel" to restart.', 'error');
+          return true;
         }
-        break;
     }
     return false;
   };
@@ -127,20 +146,29 @@ const CLILogin = () => {
     return input.trim().replace(/[<>]/g, '');
   };
 
+  const isValidEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
   const handleCommand = async (input) => {
     const command = sanitizeInput(input);
     
-    // For password step, don't log the actual password
+    // For password step, mask the input in display
     const displayCommand = step === 'password' ? '*'.repeat(command.length) : command;
     addOutput(`${getCurrentPrompt()} ${displayCommand}`, 'input');
 
-    // Handle special commands first
-    if (step === 'welcome' && handleSpecialCommands(command)) {
+    // Handle special commands in any step (except authenticating)
+    if (step !== 'authenticating' && handleSpecialCommands(command)) {
       return;
     }
 
     switch (step) {
       case 'welcome':
+        // In welcome state, only special commands work
+        addOutput(`Unknown command: ${command}`, 'error');
+        addOutput('Type "help" for available commands or "login" to authenticate.', 'prompt');
+        break;
+
       case 'email':
         if (command === '') {
           addOutput('Email cannot be empty. Please enter your admin email:', 'error');
@@ -164,7 +192,7 @@ const CLILogin = () => {
           return;
         }
 
-        // Now we have both email and password, proceed with authentication
+        // Start authentication
         setStep('authenticating');
         setIsLoading(true);
         
@@ -172,27 +200,32 @@ const CLILogin = () => {
         
         try {
           const response = await login({
-            email: credentials.email // Use stored email
-            , password: command // Use current password input
+            email: credentials.email,
+            password: command
           });
 
           if (response.success) {
-            addOutput('Authentication successful!', 'success');
-            addOutput('Redirecting to dashboard...', 'info');
+            addOutput('✓ Authentication successful!', 'success');
+            addOutput('Welcome to the admin dashboard.', 'success');
+            addOutput('Redirecting...', 'info');
             
             setTimeout(() => {
-              window.location.href = '/dashboard'; // Better navigation
+              navigate('/dashboard');
             }, 1500);
           } else {
-            addOutput(`Authentication failed: ${response.error}`, 'error');
-            resetToLogin();
+            addOutput(`✗ Authentication failed: ${response.error}`, 'error');
+            resetToEmail();
           }
         } catch (error) {
-          addOutput(`System error: ${error.message}`, 'error');
-          resetToLogin();
+          addOutput(`✗ System error: ${error.message}`, 'error');
+          resetToEmail();
         }
         
         setIsLoading(false);
+        break;
+
+      case 'authenticating':
+        addOutput('Please wait, authentication in progress...', 'info');
         break;
     }
   };
@@ -201,8 +234,8 @@ const CLILogin = () => {
     if (e.key === 'Enter' && !isLoading) {
       e.preventDefault();
       
-      // Add to command history
-      if (currentInput.trim()) {
+      // Add to command history (excluding passwords)
+      if (currentInput.trim() && step !== 'password') {
         setCommandHistory(prev => [...prev, currentInput.trim()]);
         setHistoryIndex(-1);
       }
@@ -211,7 +244,7 @@ const CLILogin = () => {
       setCurrentInput('');
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
-      if (commandHistory.length > 0) {
+      if (commandHistory.length > 0 && step !== 'password') {
         const newIndex = historyIndex + 1;
         if (newIndex < commandHistory.length) {
           setHistoryIndex(newIndex);
@@ -220,7 +253,7 @@ const CLILogin = () => {
       }
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
-      if (historyIndex > 0) {
+      if (historyIndex > 0 && step !== 'password') {
         const newIndex = historyIndex - 1;
         setHistoryIndex(newIndex);
         setCurrentInput(commandHistory[commandHistory.length - 1 - newIndex]);
@@ -230,11 +263,18 @@ const CLILogin = () => {
       }
     } else if (e.key === 'Tab') {
       e.preventDefault();
-      // Basic auto-completion for commands
-      const commands = ['help', 'login', 'clear', 'about', 'exit'];
-      const matches = commands.filter(cmd => cmd.startsWith(currentInput.toLowerCase()));
-      if (matches.length === 1) {
-        setCurrentInput(matches[0]);
+      if (step === 'welcome') {
+        // Auto-completion for commands
+        const commands = ['help', 'login', 'clear', 'about', 'exit'];
+        const matches = commands.filter(cmd => cmd.startsWith(currentInput.toLowerCase()));
+        if (matches.length === 1) {
+          setCurrentInput(matches[0]);
+        }
+      }
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      if (step !== 'welcome' && step !== 'authenticating') {
+        resetToWelcome();
       }
     }
   };
@@ -245,13 +285,11 @@ const CLILogin = () => {
         return 'Email:';
       case 'password':
         return 'Password:';
+      case 'authenticating':
+        return '';
       default:
         return 'admin@console:~$';
     }
-  };
-
-  const isValidEmail = (email) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
   const getTextColor = (type) => {
@@ -292,43 +330,7 @@ const CLILogin = () => {
       padding: '20px',
       overflow: 'hidden'
     }}>
-      {/* Terminal Header */}
-      <div style={{
-        borderBottom: '1px solid #333',
-        paddingBottom: '10px',
-        marginBottom: '20px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-      }}>
-        <div style={{ color: '#888', fontSize: '12px' }}>
-          Ali Ahammad Portfolio - Admin Console
-        </div>
-        <div style={{ 
-          display: 'flex', 
-          gap: '8px',
-          alignItems: 'center'
-        }}>
-          <div style={{ 
-            width: '12px', 
-            height: '12px', 
-            borderRadius: '50%', 
-            backgroundColor: '#ff5f56' 
-          }}></div>
-          <div style={{ 
-            width: '12px', 
-            height: '12px', 
-            borderRadius: '50%', 
-            backgroundColor: '#ffbd2e' 
-          }}></div>
-          <div style={{ 
-            width: '12px', 
-            height: '12px', 
-            borderRadius: '50%', 
-            backgroundColor: '#27ca3f' 
-          }}></div>
-        </div>
-      </div>
+
 
       {/* Terminal Content */}
       <div
@@ -359,7 +361,7 @@ const CLILogin = () => {
               type={step === 'password' ? 'password' : 'text'}
               value={currentInput}
               onChange={(e) => setCurrentInput(e.target.value)}
-              onKeyPress={handleKeyPress}
+              onKeyDown={handleKeyPress}
               style={{
                 backgroundColor: 'transparent',
                 border: 'none',
@@ -372,6 +374,7 @@ const CLILogin = () => {
               }}
               autoComplete="off"
               disabled={isLoading}
+              placeholder={step === 'welcome' ? 'Type "help" for commands...' : ''}
             />
             <span style={{
               color: '#00ff00',
@@ -441,8 +444,8 @@ const CLILogin = () => {
         color: '#444',
         fontSize: '10px'
       }}>
-        <div>Tip: Try 'help' command for assistance</div>
-        <div>Press Ctrl+C to return to portfolio</div>
+        <div>Commands: help | login | clear | about | exit</div>
+        <div>ESC: Cancel operation | TAB: Auto-complete</div>
       </div>
 
       {/* Back to Portfolio Link */}
@@ -451,24 +454,29 @@ const CLILogin = () => {
         bottom: '10px',
         right: '20px'
       }}>
-        <a
-          href="/"
-          onClick={(e) => {
-            e.preventDefault();
-            window.history.pushState({}, '', '/');
-            window.location.reload();
-          }}
+        <button
+          onClick={() => navigate('/')}
           style={{
+            backgroundColor: 'transparent',
+            border: '1px solid #666',
             color: '#666',
-            textDecoration: 'none',
+            padding: '5px 10px',
+            borderRadius: '3px',
             fontSize: '12px',
-            transition: 'color 0.2s'
+            cursor: 'pointer',
+            transition: 'all 0.2s'
           }}
-          onMouseEnter={(e) => e.target.style.color = '#00ff00'}
-          onMouseLeave={(e) => e.target.style.color = '#666'}
+          onMouseEnter={(e) => {
+            e.target.style.color = '#00ff00';
+            e.target.style.borderColor = '#00ff00';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.color = '#666';
+            e.target.style.borderColor = '#666';
+          }}
         >
           ← Back to Portfolio
-        </a>
+        </button>
       </div>
     </div>
   );
