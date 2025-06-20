@@ -13,6 +13,8 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    console.log('🚀 Contact form submitted');
+    
     const form = e.target;
     const formData = {
       firstName: form.fname.value,
@@ -22,18 +24,33 @@ const Contact = () => {
       message: form.message.value
     };
 
-    const response = await ContactController.handleContactSubmission(formData, {
-      onLoading: setLoading,
-      onSuccess: (response) => {
-        setMessage(response.message);
-        setMessageType('success');
-        form.reset(); // Clear the form
-      },
-      onError: (response) => {
-        setMessage(response.error || 'Failed to send message');
-        setMessageType('error');
-      }
-    });
+    console.log('📝 Form data:', formData);
+
+    try {
+      const response = await ContactController.handleContactSubmission(formData, {
+        onLoading: (isLoading) => {
+          console.log('⏳ Loading state:', isLoading);
+          setLoading(isLoading);
+        },
+        onSuccess: (response) => {
+          console.log('✅ Success:', response);
+          setMessage(response.message);
+          setMessageType('success');
+          form.reset(); // Clear the form
+        },
+        onError: (response) => {
+          console.log('❌ Error:', response);
+          setMessage(response.error || 'Failed to send message');
+          setMessageType('error');
+        }
+      });
+
+      console.log('📊 Final response:', response);
+    } catch (error) {
+      console.error('💥 Unexpected error:', error);
+      setMessage('An unexpected error occurred');
+      setMessageType('error');
+    }
   };
 
   return (
@@ -51,7 +68,8 @@ const Contact = () => {
             border: `1px solid ${messageType === 'success' ? '#c3e6cb' : '#f5c6cb'}`,
             padding: '12px',
             borderRadius: '4px',
-            marginBottom: '20px'
+            marginBottom: '20px',
+            fontWeight: 'bold'
           }}>
             {message}
           </div>
@@ -127,12 +145,17 @@ const Contact = () => {
               ></textarea>
             </div>
           </div>
+          
           <div className="form-group">
             <input 
               type="submit" 
               value={loading ? "Sending..." : "Send Message"} 
               className="btn btn-primary"
               disabled={loading}
+              style={{
+                opacity: loading ? 0.6 : 1,
+                cursor: loading ? 'not-allowed' : 'pointer'
+              }}
             />
           </div>
         </form>	
