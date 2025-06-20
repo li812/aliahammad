@@ -1,6 +1,11 @@
 import React from 'react';
+import { useParallaxEffect, useFullHeightEffect } from '../utils/effects';
 
 const Header = () => {
+  // Apply parallax and full height effects specifically to header
+  useParallaxEffect();
+  useFullHeightEffect();
+
   return (
     <header 
       id="fh5co-header" 

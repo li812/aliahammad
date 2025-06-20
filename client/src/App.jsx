@@ -6,20 +6,12 @@ import Experience from './components/Experience'
 import Medium from './components/Medium'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
+import { useAllEffectsHook } from './utils/effects'
 import './App.css'
 
 function App() {
-  useEffect(() => {
-    // Hide loader after component mounts
-    const timer = setTimeout(() => {
-      const loader = document.querySelector('.fh5co-loader');
-      if (loader) {
-        loader.style.display = 'none';
-      }
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, []);
+  // Initialize all effects
+  useAllEffectsHook();
 
   return (
     <div>

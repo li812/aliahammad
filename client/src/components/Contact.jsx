@@ -1,12 +1,16 @@
 import React from 'react';
+import { useFormEffect } from '../utils/effects';
 
 const Contact = () => {
+  // Apply form animations
+  useFormEffect();
+
   return (
     <div id="fh5co-consult">
       <div className="video fh5co-video" style={{backgroundImage: 'url(images/cover_bg_1.jpg)'}}>
         <div className="overlay"></div>
       </div>
-      <div className="choose animate-box">
+      <div className="choose animate-box" data-animate-effect="fadeInRight">
         <h2>Contact</h2>
         <form action="#">
           <div className="row form-group">

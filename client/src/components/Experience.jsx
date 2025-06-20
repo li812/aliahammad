@@ -1,10 +1,14 @@
 import React from 'react';
+import { useTimelineEffect } from '../utils/effects';
 
 const Experience = () => {
+  // Apply timeline animations
+  useTimelineEffect();
+
   return (
     <div id="fh5co-resume" className="fh5co-bg-color">
       <div className="container">
-        <div className="row animate-box">
+        <div className="row animate-box" data-animate-effect="fadeInUp">
           <div className="col-md-8 col-md-offset-2 text-center fh5co-heading">
             <h2>My Resume</h2>
           </div>

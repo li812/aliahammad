@@ -1,16 +1,20 @@
 import React from 'react';
+import { useWorkHoverEffect } from '../utils/effects';
 
 const Projects = () => {
+  // Apply work hover effects
+  useWorkHoverEffect();
+
   return (
     <div id="fh5co-work" className="fh5co-bg-dark">
       <div className="container">
-        <div className="row animate-box">
+        <div className="row animate-box" data-animate-effect="fadeInUp">
           <div className="col-md-8 col-md-offset-2 text-center fh5co-heading">
             <h2>My Projects</h2>
           </div>
         </div>
         <div className="row">
-          <div className="col-md-3 text-center col-padding animate-box">
+          <div className="col-md-3 text-center col-padding animate-box" data-animate-effect="fadeInLeft">
             <a href="https://pypi.org/project/lisql/" className="work" style={{backgroundImage: 'url(images/lisql.png)'}}>
               <div className="desc">
                 <h3>LiSQL</h3>
@@ -18,7 +22,7 @@ const Projects = () => {
               </div>
             </a>
           </div>
-          <div className="col-md-3 text-center col-padding animate-box">
+          <div className="col-md-3 text-center col-padding animate-box" data-animate-effect="fadeInUp">
             <a href="https://github.com/li812/3D-Face-Recontructor/" className="work" style={{backgroundImage: 'url(images/3d-face.png)'}}>
               <div className="desc">
                 <h3>3D Face Recontructor</h3>
@@ -26,7 +30,7 @@ const Projects = () => {
               </div>
             </a>
           </div>
-          <div className="col-md-3 text-center col-padding animate-box">
+          <div className="col-md-3 text-center col-padding animate-box" data-animate-effect="fadeInUp">
             <a href="https://github.com/li812/Attendance-System-Using-Facial-Recognition/" className="work" style={{backgroundImage: 'url(images/at.png)'}}>
               <div className="desc">
                 <h3>Attendance System Using Facial Recognition</h3>
@@ -34,7 +38,7 @@ const Projects = () => {
               </div>
             </a>
           </div>
-          <div className="col-md-3 text-center col-padding animate-box">
+          <div className="col-md-3 text-center col-padding animate-box" data-animate-effect="fadeInRight">
             <a href="https://github.com/li812/Pandemic-Controlling-System/" className="work" style={{backgroundImage: 'url(images/pandemo.png)'}}>
               <div className="desc">
                 <h3>Pandemic Controlling System</h3>
