@@ -26,6 +26,7 @@ const Header = () => {
                 ></div>
                 <h1><span>Ali Ahammad</span></h1>
                 <h3><span>Data Science Enthusiast / AI Researcher / Student</span></h3>
+                <br/>
                 <div>
                   <ul className="fh5co-social-icons">
                     <li>

@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 // ==================== CORE ANIMATION UTILITIES ====================
 
 // Mobile Detection Utility
@@ -46,17 +48,21 @@ export const useParallax = () => {
   };
 
   const initParallax = () => {
-    window.addEventListener('scroll', handleParallax);
-    return () => window.removeEventListener('scroll', handleParallax);
+    if (!isMobile.any()) {
+      window.addEventListener('scroll', handleParallax);
+      return () => window.removeEventListener('scroll', handleParallax);
+    }
+    return () => {};
   };
 
   return initParallax;
 };
 
-// ==================== 3. WAYPOINT ANIMATIONS ====================
+// ==================== 3. ENHANCED WAYPOINT ANIMATIONS ====================
 export const useWaypointAnimations = () => {
   const observeAnimations = () => {
     const animateBoxes = document.querySelectorAll('.animate-box');
+    let animationIndex = 0;
     
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -64,9 +70,7 @@ export const useWaypointAnimations = () => {
           const element = entry.target;
           const effect = element.dataset.animateEffect || 'fadeInUp';
           
-          // Add staggered animation delay
-          const delay = Array.from(animateBoxes).indexOf(element) * 100;
-          
+          // Add staggered animation delay like original
           setTimeout(() => {
             element.classList.add('item-animate');
             
@@ -81,12 +85,15 @@ export const useWaypointAnimations = () => {
                 case 'fadeInRight':
                   element.classList.add('fadeInRight', 'animated-fast');
                   break;
+                case 'fadeInUp':
                 default:
                   element.classList.add('fadeInUp', 'animated-fast');
               }
               element.classList.remove('item-animate');
             }, 50);
-          }, delay);
+          }, animationIndex * 100);
+          
+          animationIndex++;
         }
       });
     }, {
@@ -107,16 +114,40 @@ export const useGoToTop = () => {
     const goToTopBtn = document.querySelector('.js-gotop');
     const topIndicator = document.querySelector('.js-top');
     
-    // Smooth scroll to top
+    // Smooth scroll to top with easing (matching original)
     const scrollToTop = (e) => {
       e.preventDefault();
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
+      
+      const startPosition = window.pageYOffset;
+      const startTime = performance.now();
+      const duration = 500;
+      
+      // Easing function to match jQuery's easeInOutExpo
+      const easeInOutExpo = (t) => {
+        if (t === 0) return 0;
+        if (t === 1) return 1;
+        if (t < 0.5) {
+          return Math.pow(2, 20 * t - 10) / 2;
+        }
+        return (2 - Math.pow(2, -20 * t + 10)) / 2;
+      };
+      
+      const animateScroll = (currentTime) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeProgress = easeInOutExpo(progress);
+        
+        window.scrollTo(0, startPosition * (1 - easeProgress));
+        
+        if (progress < 1) {
+          requestAnimationFrame(animateScroll);
+        }
+      };
+      
+      requestAnimationFrame(animateScroll);
     };
 
-    // Show/hide button based on scroll
+    // Show/hide button based on scroll (matching original)
     const handleScroll = () => {
       if (window.scrollY > 200) {
         topIndicator?.classList.add('active');
@@ -137,16 +168,21 @@ export const useGoToTop = () => {
   return initGoToTop;
 };
 
-// ==================== 5. LOADING ANIMATION ====================
-export const useLoader = (duration = 1000) => {
+// ==================== 5. ENHANCED LOADING ANIMATION ====================
+export const useLoader = (duration = 500) => {
   const hideLoader = () => {
     const loader = document.querySelector('.fh5co-loader');
     if (loader) {
-      loader.style.opacity = '0';
-      loader.style.transition = 'opacity 0.5s ease-out';
+      // Fadeout effect matching jQuery's fadeOut("slow")
+      loader.style.opacity = '1';
+      loader.style.transition = 'opacity 0.6s ease-out';
+      
       setTimeout(() => {
-        loader.style.display = 'none';
-      }, 500);
+        loader.style.opacity = '0';
+        setTimeout(() => {
+          loader.style.display = 'none';
+        }, 600);
+      }, 100);
     }
   };
 
@@ -158,21 +194,23 @@ export const useLoader = (duration = 1000) => {
   return initLoader;
 };
 
-// ==================== 6. TIMELINE ANIMATIONS ====================
+// ==================== 6. ENHANCED TIMELINE ANIMATIONS ====================
 export const useTimelineAnimations = () => {
   const initTimeline = () => {
-    const timelineItems = document.querySelectorAll('.timeline li');
+    const timelineItems = document.querySelectorAll('.timeline li.animate-box');
     
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry, index) => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && !entry.target.classList.contains('animated-fast')) {
+          // Staggered animation matching original
           setTimeout(() => {
             entry.target.classList.add('fadeInUp', 'animated-fast');
           }, index * 200);
         }
       });
     }, {
-      threshold: 0.3
+      threshold: 0.3,
+      rootMargin: '-10% 0px'
     });
 
     timelineItems.forEach(item => observer.observe(item));
@@ -182,7 +220,7 @@ export const useTimelineAnimations = () => {
   return initTimeline;
 };
 
-// ==================== 7. WORK/PROJECT HOVER EFFECTS ====================
+// ==================== 7. ENHANCED WORK/PROJECT HOVER EFFECTS ====================
 export const useWorkHoverEffects = () => {
   const initWorkHover = () => {
     const workItems = document.querySelectorAll('.work');
@@ -190,18 +228,24 @@ export const useWorkHoverEffects = () => {
     workItems.forEach(item => {
       const desc = item.querySelector('.desc');
       
+      if (desc) {
+        // Set initial state
+        desc.style.opacity = '0';
+        desc.style.transform = 'translateY(15px)';
+        desc.style.transition = 'all 0.3s ease';
+      }
+      
       const handleMouseEnter = () => {
         if (desc) {
           desc.style.transform = 'translateY(0)';
           desc.style.opacity = '1';
-          desc.style.transition = 'all 0.3s ease';
         }
       };
 
       const handleMouseLeave = () => {
         if (desc) {
-          desc.style.transform = 'translateY(20px)';
-          desc.style.opacity = '0.8';
+          desc.style.transform = 'translateY(15px)';
+          desc.style.opacity = '0';
         }
       };
 
@@ -209,7 +253,6 @@ export const useWorkHoverEffects = () => {
       item.addEventListener('mouseleave', handleMouseLeave);
     });
 
-    // Cleanup function
     return () => {
       workItems.forEach(item => {
         item.removeEventListener('mouseenter', () => {});
@@ -221,19 +264,21 @@ export const useWorkHoverEffects = () => {
   return initWorkHover;
 };
 
-// ==================== 8. FORM ANIMATIONS ====================
+// ==================== 8. ENHANCED FORM ANIMATIONS ====================
 export const useFormAnimations = () => {
   const initFormAnimations = () => {
-    const formInputs = document.querySelectorAll('input, textarea');
+    const formInputs = document.querySelectorAll('#fh5co-consult input, #fh5co-consult textarea');
     
     formInputs.forEach(input => {
       const handleFocus = () => {
         input.style.transform = 'scale(1.02)';
         input.style.transition = 'transform 0.2s ease';
+        input.style.borderColor = 'rgba(0,0,0,.8)';
       };
 
       const handleBlur = () => {
         input.style.transform = 'scale(1)';
+        input.style.borderColor = 'rgba(0,0,0,.1)';
       };
 
       input.addEventListener('focus', handleFocus);
@@ -251,12 +296,44 @@ export const useFormAnimations = () => {
   return initFormAnimations;
 };
 
-// ==================== 9. MASTER ANIMATION CONTROLLER ====================
+// ==================== 9. BLOG HOVER EFFECTS ====================
+export const useBlogHoverEffects = () => {
+  const initBlogHover = () => {
+    const blogItems = document.querySelectorAll('.fh5co-blog');
+    
+    blogItems.forEach(item => {
+      const handleMouseEnter = () => {
+        item.style.transform = 'translateY(-5px)';
+        item.style.transition = 'transform 0.3s ease';
+        item.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
+      };
+
+      const handleMouseLeave = () => {
+        item.style.transform = 'translateY(0)';
+        item.style.boxShadow = 'none';
+      };
+
+      item.addEventListener('mouseenter', handleMouseEnter);
+      item.addEventListener('mouseleave', handleMouseLeave);
+    });
+
+    return () => {
+      blogItems.forEach(item => {
+        item.removeEventListener('mouseenter', () => {});
+        item.removeEventListener('mouseleave', () => {});
+      });
+    };
+  };
+
+  return initBlogHover;
+};
+
+// ==================== 10. MASTER ANIMATION CONTROLLER ====================
 export const useAllEffects = () => {
   const initAllEffects = () => {
     const cleanupFunctions = [];
 
-    // Initialize all effects
+    // Initialize all effects in the correct order
     cleanupFunctions.push(useFullHeight()());
     cleanupFunctions.push(useParallax()());
     cleanupFunctions.push(useWaypointAnimations()());
@@ -265,6 +342,7 @@ export const useAllEffects = () => {
     cleanupFunctions.push(useTimelineAnimations()());
     cleanupFunctions.push(useWorkHoverEffects()());
     cleanupFunctions.push(useFormAnimations()());
+    cleanupFunctions.push(useBlogHoverEffects()());
 
     // Return cleanup function
     return () => {
@@ -275,9 +353,7 @@ export const useAllEffects = () => {
   return initAllEffects;
 };
 
-// ==================== 10. REACT HOOKS FOR INDIVIDUAL EFFECTS ====================
-import { useEffect } from 'react';
-
+// ==================== 11. REACT HOOKS FOR INDIVIDUAL EFFECTS ====================
 export const useEffectHook = (effectFunction) => {
   useEffect(() => {
     const cleanup = effectFunction();
@@ -294,4 +370,5 @@ export const useLoaderEffect = (duration) => useEffectHook(() => useLoader(durat
 export const useTimelineEffect = () => useEffectHook(useTimelineAnimations());
 export const useWorkHoverEffect = () => useEffectHook(useWorkHoverEffects());
 export const useFormEffect = () => useEffectHook(useFormAnimations());
+export const useBlogHoverEffect = () => useEffectHook(useBlogHoverEffects());
 export const useAllEffectsHook = () => useEffectHook(useAllEffects());

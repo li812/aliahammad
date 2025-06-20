@@ -4,14 +4,14 @@ const Medium = () => {
   return (
     <div id="fh5co-blog" className="fh5co-bg-dark">
       <div className="container">
-        <div className="row animate-box">
+        <div className="row animate-box" data-animate-effect="fadeInUp">
           <div className="col-md-8 col-md-offset-2 text-center fh5co-heading">
             <h2>Post on Medium</h2>
           </div>
         </div>
         <div className="row">
           <div className="col-md-4">
-            <div className="fh5co-blog animate-box">
+            <div className="fh5co-blog animate-box" data-animate-effect="fadeInLeft">
               <a href="#" className="blog-bg" style={{backgroundImage: 'url(images/quan.png)'}}></a>
               <div className="blog-text">
                 <span className="posted_on">Nov 20, 2023</span>
@@ -26,7 +26,7 @@ const Medium = () => {
             </div>
           </div>
           <div className="col-md-4">
-            <div className="fh5co-blog animate-box">
+            <div className="fh5co-blog animate-box" data-animate-effect="fadeInUp">
               <a href="#" className="blog-bg" style={{backgroundImage: 'url(images/3d.png)'}}></a>
               <div className="blog-text">
                 <span className="posted_on">May 10, 2024</span>
@@ -41,7 +41,7 @@ const Medium = () => {
             </div>
           </div>
           <div className="col-md-4">
-            <div className="fh5co-blog animate-box">
+            <div className="fh5co-blog animate-box" data-animate-effect="fadeInRight">
               <a href="#" className="blog-bg" style={{backgroundImage: 'url(images/lisql.png)'}}></a>
               <div className="blog-text">
                 <span className="posted_on">May 16, 2024</span>

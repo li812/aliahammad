@@ -1,6 +1,10 @@
 import React from 'react';
+import { useGoToTopEffect } from '../utils/effects';
 
 const Footer = () => {
+  // Apply go-to-top functionality
+  useGoToTopEffect();
+
   return (
     <>
       <div id="fh5co-footer">
