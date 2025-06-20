@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useFormEffect } from '../../utils/effects';
-import { ContactController } from '../../../controllers/contactController';
+import { ContactController } from '../../controllers/contactController';
 
 const Contact = () => {
   const [loading, setLoading] = useState(false);
@@ -36,12 +36,16 @@ const Contact = () => {
           console.log('✅ Success:', response);
           setMessage(response.message);
           setMessageType('success');
-          form.reset(); // Clear the form
+          form.reset();
+          // Clear message after 5 seconds
+          setTimeout(() => setMessage(''), 5000);
         },
         onError: (response) => {
           console.log('❌ Error:', response);
           setMessage(response.error || 'Failed to send message');
           setMessageType('error');
+          // Clear message after 5 seconds
+          setTimeout(() => setMessage(''), 5000);
         }
       });
 
@@ -50,6 +54,7 @@ const Contact = () => {
       console.error('💥 Unexpected error:', error);
       setMessage('An unexpected error occurred');
       setMessageType('error');
+      setTimeout(() => setMessage(''), 5000);
     }
   };
 

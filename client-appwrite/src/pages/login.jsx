@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { LoginController } from '../../controllers/loginController';
+import { LoginController } from '../controllers/loginController';
 
 const Login = ({ onLoginSuccess }) => {
   const [formData, setFormData] = useState({

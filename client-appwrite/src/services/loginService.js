@@ -1,4 +1,4 @@
-import { account } from '../src/config/appwrite';
+import { account } from '../config/appwrite';
 
 export class LoginService {
   

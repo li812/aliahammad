@@ -1,4 +1,4 @@
-import { databases, appwriteConfig } from '../src/config/appwrite';
+import { databases, appwriteConfig } from '../config/appwrite';
 import { ID } from 'appwrite';
 import { ContactModel } from '../models/contacts';
 
