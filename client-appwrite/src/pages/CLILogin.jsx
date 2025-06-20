@@ -1,13 +1,28 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const CLILogin = () => {
-  const { login } = useAuth();
+  const { login, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+  const timeoutRefs = useRef([]);
+  const MAX_OUTPUT_LINES = 100;
+  
+  // Check if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      addOutput('Already authenticated. Redirecting to dashboard...', 'info');
+      setTimeout(() => navigate('/dashboard'), 1000);
+    }
+  }, [isAuthenticated, navigate]);
+
   const [output, setOutput] = useState([]);
   const [currentInput, setCurrentInput] = useState('');
   const [step, setStep] = useState('welcome'); // welcome, email, password, authenticating
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [isLoading, setIsLoading] = useState(false);
+  const [commandHistory, setCommandHistory] = useState([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
   const terminalRef = useRef();
   const inputRef = useRef();
 
@@ -42,7 +57,29 @@ const CLILogin = () => {
   }, [output]);
 
   const addOutput = (text, type = 'system') => {
-    setOutput(prev => [...prev, { type, text }]);
+    setOutput(prev => {
+      const newOutput = [...prev, { type, text }];
+      // Keep only last MAX_OUTPUT_LINES
+      return newOutput.slice(-MAX_OUTPUT_LINES);
+    });
+  };
+
+  const addOutputWithDelay = (text, type = 'system', delay = 0) => {
+    const timeout = setTimeout(() => {
+      setOutput(prev => [...prev, { type, text }]);
+    }, delay);
+    
+    timeoutRefs.current.push(timeout);
+    return timeout;
+  };
+
+  const resetToLogin = () => {
+    setStep('email');
+    setCredentials({ email: '', password: '' });
+    setCurrentInput('');
+    addOutput('', 'system');
+    addOutput('Please try again.', 'prompt');
+    addOutput('Email:', 'prompt');
   };
 
   const handleSpecialCommands = (command) => {
@@ -72,10 +109,7 @@ const CLILogin = () => {
       
       case 'exit':
         addOutput('Returning to portfolio...', 'info');
-        setTimeout(() => {
-          window.history.pushState({}, '', '/');
-          window.location.reload();
-        }, 1000);
+        setTimeout(() => navigate('/'), 1000);
         return true;
       
       case 'login':
@@ -89,11 +123,16 @@ const CLILogin = () => {
     return false;
   };
 
+  const sanitizeInput = (input) => {
+    return input.trim().replace(/[<>]/g, '');
+  };
+
   const handleCommand = async (input) => {
-    const command = input.trim();
+    const command = sanitizeInput(input);
     
-    // Add user input to output
-    addOutput(`${getCurrentPrompt()} ${command}`, 'input');
+    // For password step, don't log the actual password
+    const displayCommand = step === 'password' ? '*'.repeat(command.length) : command;
+    addOutput(`${getCurrentPrompt()} ${displayCommand}`, 'input');
 
     // Handle special commands first
     if (step === 'welcome' && handleSpecialCommands(command)) {
@@ -113,6 +152,7 @@ const CLILogin = () => {
           return;
         }
 
+        // Store email and move to password step
         setCredentials(prev => ({ ...prev, email: command }));
         addOutput('Password:', 'prompt');
         setStep('password');
@@ -124,7 +164,7 @@ const CLILogin = () => {
           return;
         }
 
-        setCredentials(prev => ({ ...prev, password: command }));
+        // Now we have both email and password, proceed with authentication
         setStep('authenticating');
         setIsLoading(true);
         
@@ -132,49 +172,70 @@ const CLILogin = () => {
         
         try {
           const response = await login({
-            email: credentials.email,
-            password: command
+            email: credentials.email // Use stored email
+            , password: command // Use current password input
           });
 
           if (response.success) {
             addOutput('Authentication successful!', 'success');
             addOutput('Redirecting to dashboard...', 'info');
-            addOutput('', 'system');
             
-            // Redirect to dashboard after a short delay
             setTimeout(() => {
-              window.history.pushState({}, '', '/dashboard');
-              window.location.reload(); // Simple way to trigger route change
+              window.location.href = '/dashboard'; // Better navigation
             }, 1500);
           } else {
             addOutput(`Authentication failed: ${response.error}`, 'error');
-            addOutput('', 'system');
-            addOutput('Please try again.', 'prompt');
-            addOutput('Email:', 'prompt');
-            setStep('email');
-            setCredentials({ email: '', password: '' });
+            resetToLogin();
           }
         } catch (error) {
           addOutput(`System error: ${error.message}`, 'error');
-          addOutput('Please try again.', 'prompt');
-          addOutput('Email:', 'prompt');
-          setStep('email');
-          setCredentials({ email: '', password: '' });
+          resetToLogin();
         }
         
         setIsLoading(false);
         break;
-
-      default:
-        addOutput('Invalid command', 'error');
     }
   };
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !isLoading) {
       e.preventDefault();
+      
+      // Add to command history
+      if (currentInput.trim()) {
+        setCommandHistory(prev => [...prev, currentInput.trim()]);
+        setHistoryIndex(-1);
+      }
+      
       handleCommand(currentInput);
       setCurrentInput('');
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (commandHistory.length > 0) {
+        const newIndex = historyIndex + 1;
+        if (newIndex < commandHistory.length) {
+          setHistoryIndex(newIndex);
+          setCurrentInput(commandHistory[commandHistory.length - 1 - newIndex]);
+        }
+      }
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (historyIndex > 0) {
+        const newIndex = historyIndex - 1;
+        setHistoryIndex(newIndex);
+        setCurrentInput(commandHistory[commandHistory.length - 1 - newIndex]);
+      } else if (historyIndex === 0) {
+        setHistoryIndex(-1);
+        setCurrentInput('');
+      }
+    } else if (e.key === 'Tab') {
+      e.preventDefault();
+      // Basic auto-completion for commands
+      const commands = ['help', 'login', 'clear', 'about', 'exit'];
+      const matches = commands.filter(cmd => cmd.startsWith(currentInput.toLowerCase()));
+      if (matches.length === 1) {
+        setCurrentInput(matches[0]);
+      }
     }
   };
 
