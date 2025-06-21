@@ -1,67 +1,140 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { FaLinkedin, FaGithub, FaInstagram, FaArrowRight, FaCode, FaRocket, FaBrain } from 'react-icons/fa';
+import { createParticleSystem, createTypewriterEffect, createEntranceAnimation } from '../../utils/animations';
 
 const Header = () => {
+  const heroRef = useRef(null);
+  const particleContainerRef = useRef(null);
+  const typewriterRef = useRef(null);
+
+  useEffect(() => {
+    // Initialize particle system
+    if (particleContainerRef.current) {
+      const particleSystem = createParticleSystem(particleContainerRef.current, {
+        particleCount: 80,
+        particleSize: { min: 1, max: 4 },
+        speed: { min: 0.3, max: 1.5 },
+        color: ['#00d9ff', '#9333ea', '#ffffff', '#64ffda'],
+        opacity: { min: 0.2, max: 0.6 },
+        connectionDistance: 120,
+        showConnections: true
+      });
+
+      return () => particleSystem.destroy();
+    }
+  }, []);
+
+  useEffect(() => {
+    // Initialize typewriter effect
+    if (typewriterRef.current) {
+      const roles = [
+        'Software Developer',
+        'Data Science Enthusiast', 
+        'AI Researcher',
+        'Full Stack Developer',
+        'Machine Learning Engineer'
+      ];
+      
+      // Clear the element content first
+      typewriterRef.current.textContent = '';
+      
+      createTypewriterEffect(typewriterRef.current, {
+        words: roles, // Pass the array directly
+        speed: 80,
+        deleteSpeed: 80,
+        pauseTime: 2000,
+        loop: true,
+        cursor: '|',
+        showCursor: true,
+        cursorBlink: false // Set to false for consistent cursor display
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    // Entrance animations
+    const elements = document.querySelectorAll('.hero-animate');
+    createEntranceAnimation(elements, {
+      type: 'slideUp',
+      duration: 1000,
+      stagger: 200,
+      distance: 60
+    });
+  }, []);
+
   return (
-    <header className="modern-hero">
+    <header className="modern-hero" ref={heroRef}>
+      {/* Particle Background */}
+      <div className="particle-container" ref={particleContainerRef}></div>
+      
+      {/* Dynamic Background */}
       <div className="hero-background">
         <div className="hero-overlay"></div>
-        <div className="floating-elements">
-          <div className="floating-element"></div>
-          <div className="floating-element"></div>
-          <div className="floating-element"></div>
+        <div className="geometric-shapes">
+          <div className="shape shape-1"></div>
+          <div className="shape shape-2"></div>
+          <div className="shape shape-3"></div>
+          <div className="floating-icons">
+            <div className="floating-icon icon-1"><FaCode /></div>
+            <div className="floating-icon icon-2"><FaRocket /></div>
+            <div className="floating-icon icon-3"><FaBrain /></div>
+          </div>
         </div>
       </div>
       
       <div className="modern-container">
         <div className="hero-content">
           <div className="profile-section">
-            <div className="profile-image">
-              <img src="images/user-3.jpg" alt="Ali Ahammad" />
-              <div className="profile-ring"></div>
+            <div className="profile-image hero-animate">
+              <div className="image-container">
+                <img src="images/user-3.jpg" alt="Ali Ahammad" />
+                <div className="profile-rings">
+                  <div className="ring ring-1"></div>
+                  <div className="ring ring-2"></div>
+                  <div className="ring ring-3"></div>
+                </div>
+                <div className="glow-effect"></div>
+              </div>
             </div>
             
             <div className="hero-text">
-              <h1 className="hero-title">
-                Hi, I'm <span className="gradient-text">Ali Ahammad</span><span className="cursor">|</span>
+              <div className="hero-greeting hero-animate">
+                <span className="greeting-text">Hello, I'm</span>
+              </div>
+              
+              <h1 className="hero-title hero-animate">
+                <span className="name-text">Ali Ahammad</span>
+                <div className="title-decoration"></div>
               </h1>
               
-              <div className="hero-subtitle">
-                <span className="typing-text">Software Developer / Data Science Enthusiast / AI Researcher / Student <span className="cursor">|</span></span>
-                
+              <div className="hero-subtitle hero-animate">
+                <span className="role-prefix">I'm a </span>
+                <span className="typing-text" ref={typewriterRef}></span>
               </div>
               
-              {/* <p className="hero-description">
-                Full Stack Developer passionate about leveraging cutting-edge AI and machine learning 
-                to solve complex problems and drive innovation in data science.<span className="cursor">|</span>
-              </p> */}
               
-              <div className="hero-actions">
-                <a href="#fh5co-about" className="modern-btn primary">
-                  Explore My Work
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M5 12h14m-7-7l7 7-7 7"/>
-                  </svg>
+              <div className="hero-actions hero-animate">
+                <a href="#fh5co-about" className="cta-button primary">
+                  <span>Explore My Work</span>
+                  <FaArrowRight className="button-icon" />
                 </a>
-                <a href="#fh5co-consult" className="modern-btn secondary">
-                  Get In Touch
+                <a href="#fh5co-consult" className="cta-button secondary">
+                  <span>Get In Touch</span>
                 </a>
               </div>
               
-              <div className="social-links">
-                <a href="https://www.linkedin.com/in/ali-ahammad-li0812" className="social-link" title="LinkedIn">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                  </svg>
+              <div className="social-links hero-animate">
+                <a href="https://www.linkedin.com/in/ali-ahammad-li0812" className="social-link linkedin" title="LinkedIn">
+                  <FaLinkedin />
+                  <span className="social-tooltip">LinkedIn</span>
                 </a>
-                <a href="https://github.com/li812" className="social-link" title="GitHub">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                  </svg>
+                <a href="https://github.com/li812" className="social-link github" title="GitHub">
+                  <FaGithub />
+                  <span className="social-tooltip">GitHub</span>
                 </a>
-                <a href="https://www.instagram.com/the_raptor_rider_/" className="social-link" title="Instagram">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                  </svg>
+                <a href="https://www.instagram.com/the_raptor_rider_/" className="social-link instagram" title="Instagram">
+                  <FaInstagram />
+                  <span className="social-tooltip">Instagram</span>
                 </a>
               </div>
             </div>
@@ -75,8 +148,18 @@ const Header = () => {
           display: flex;
           align-items: center;
           position: relative;
-          background: linear-gradient(135deg, rgb(0, 217, 255) 0%, rgb(0, 180, 216) 100%);
+          background: linear-gradient(135deg, #0a0e27 0%, #1e1e2e 50%, #2d1b69 100%);
           overflow: hidden;
+          color: white;
+        }
+
+        .particle-container {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
         }
 
         .hero-background {
@@ -86,6 +169,7 @@ const Header = () => {
           right: 0;
           bottom: 0;
           background: url('images/cover_bg_3.jpg') center/cover;
+          z-index: 0;
         }
 
         .hero-overlay {
@@ -94,80 +178,165 @@ const Header = () => {
           left: 0;
           right: 0;
           bottom: 0;
-          background: linear-gradient(135deg, rgba(0, 217, 255, 0.85) 0%, rgba(0, 180, 216, 0.85) 100%);
+          background: linear-gradient(135deg, rgba(10, 14, 39, 0.9) 0%, rgba(30, 30, 46, 0.8) 50%, rgba(45, 27, 105, 0.9) 100%);
         }
 
-        .floating-elements {
+        .geometric-shapes {
           position: absolute;
           top: 0;
           left: 0;
           right: 0;
           bottom: 0;
-          pointer-events: none;
+          overflow: hidden;
         }
 
-        .floating-element {
+        .shape {
           position: absolute;
-          width: 60px;
-          height: 60px;
-          background: rgba(255, 255, 255, 0.1);
+          background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(147, 51, 234, 0.1));
           border-radius: 50%;
-          animation: float 6s ease-in-out infinite;
+          animation: float 8s ease-in-out infinite;
         }
 
-        .floating-element:nth-child(1) {
-          top: 20%;
-          left: 10%;
+        .shape-1 {
+          width: 300px;
+          height: 300px;
+          top: 10%;
+          left: -10%;
           animation-delay: 0s;
         }
 
-        .floating-element:nth-child(2) {
+        .shape-2 {
+          width: 200px;
+          height: 200px;
           top: 60%;
-          right: 15%;
+          right: -5%;
           animation-delay: 2s;
         }
 
-        .floating-element:nth-child(3) {
+        .shape-3 {
+          width: 150px;
+          height: 150px;
           bottom: 20%;
           left: 20%;
+          animation-delay: 4s;
+        }
+
+        .floating-icons {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+        }
+
+        .floating-icon {
+          position: absolute;
+          font-size: 2rem;
+          color: rgba(0, 217, 255, 0.3);
+          animation: iconFloat 6s ease-in-out infinite;
+        }
+
+        .icon-1 {
+          top: 20%;
+          right: 15%;
+          animation-delay: 0s;
+        }
+
+        .icon-2 {
+          top: 70%;
+          left: 10%;
+          animation-delay: 2s;
+        }
+
+        .icon-3 {
+          bottom: 30%;
+          right: 25%;
           animation-delay: 4s;
         }
 
         .hero-content {
           position: relative;
           z-index: 2;
-          color: white;
+          width: 100%;
         }
 
         .profile-section {
           display: flex;
           align-items: center;
-          gap: 3rem;
+          gap: 4rem;
           flex-wrap: wrap;
         }
 
         .profile-image {
           position: relative;
           flex-shrink: 0;
+          width: 380px;
+          height: 380px;
         }
 
-        .profile-image img {
-          width: 200px;
-          height: 200px;
+        .image-container {
+          position: relative;
+          width: 380px;
+          height: 380px;
+        }
+
+        .image-container img {
+          width: 100%;
+          height: 100%;
           border-radius: 50%;
           object-fit: cover;
-          border: 4px solid rgba(255, 255, 255, 0.3);
+          border: 4px solid rgba(0, 217, 255, 0.3);
+          position: relative;
+          z-index: 3;
         }
 
-        .profile-ring {
+        .profile-rings {
           position: absolute;
-          top: -10px;
-          left: -10px;
-          right: -10px;
-          bottom: -10px;
-          border: 2px solid rgba(255, 255, 255, 0.4);
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+
+        .ring {
+          position: absolute;
           border-radius: 50%;
-          animation: rotate 10s linear infinite;
+          border: 2px solid;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+
+        .ring-1 {
+          width: 420px;
+          height: 420px;
+          border-color: rgba(0, 217, 255, 0.4);
+          animation: rotate 15s linear infinite;
+        }
+
+        .ring-2 {
+          width: 460px;
+          height: 460px;
+          border-color: rgba(147, 51, 234, 0.3);
+          animation: rotate 20s linear infinite reverse;
+        }
+
+        .ring-3 {
+          width: 500px;
+          height: 500px;
+          border-color: rgba(100, 255, 218, 0.2);
+          animation: rotate 25s linear infinite;
+        }
+
+        .glow-effect {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 400px;
+          height: 400px;
+          background: radial-gradient(circle, rgba(0, 217, 255, 0.2) 0%, transparent 70%);
+          border-radius: 50%;
+          animation: pulse 3s ease-in-out infinite;
         }
 
         .hero-text {
@@ -175,125 +344,279 @@ const Header = () => {
           min-width: 300px;
         }
 
-        .hero-title {
-          font-size: clamp(var(--font-size-4xl), 5vw, var(--font-size-6xl));
-          font-weight: 700;
+        .hero-greeting {
           margin-bottom: 1rem;
-          line-height: 1.2;
         }
 
-        .gradient-text {
-          background: linear-gradient(45deg, #fff, #f0f0f0);
+        .greeting-text {
+          font-size: 1.5rem;
+          color: rgba(255, 255, 255, 0.8);
+          font-weight: 400;
+          letter-spacing: 0.1em;
+        }
+
+        .hero-title {
+          font-size: clamp(3rem, 6vw, 5rem);
+          font-weight: 800;
+          margin-bottom: 1.5rem;
+          line-height: 1.1;
+          position: relative;
+        }
+
+        .name-text {
+          background: linear-gradient(135deg, #00d9ff 0%, #9333ea 50%, #64ffda 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
+          position: relative;
+        }
+
+        .title-decoration {
+          width: 100px;
+          height: 4px;
+          background: linear-gradient(90deg, #00d9ff, #9333ea);
+          margin-top: 1rem;
+          border-radius: 2px;
+          position: relative;
+        }
+
+        .title-decoration::after {
+          content: '';
+          position: absolute;
+          top: -2px;
+          left: 0;
+          width: 30px;
+          height: 8px;
+          background: #00d9ff;
+          border-radius: 4px;
+          box-shadow: 0 0 20px rgba(0, 217, 255, 0.6);
         }
 
         .hero-subtitle {
-          font-size: clamp(var(--font-size-xl), 2vw, var(--font-size-3xl));
-          margin-bottom: 1.5rem;
-          color: rgba(255, 255, 255, 0.95);
+          font-size: clamp(1.5rem, 3vw, 2.2rem);
+          margin-bottom: 2rem;
           font-weight: 500;
+          line-height: 1.3;
+        }
+
+        .role-prefix {
+          color: rgba(255, 255, 255, 0.9);
         }
 
         .typing-text {
-          display: inline-block;
-        }
-
-        .cursor {
-          animation: blink 1s infinite;
+          background: linear-gradient(135deg, #00d9ff, #9333ea);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          font-weight: 600;
         }
 
         .hero-description {
-          font-size: var(--font-size-xl);
-          line-height: 1.6;
-          margin-bottom: 2rem;
-          color: rgba(255, 255, 255, 0.9);
+          font-size: 1.2rem;
+          line-height: 1.7;
+          margin-bottom: 3rem;
+          color: rgba(255, 255, 255, 0.8);
           max-width: 600px;
         }
 
         .hero-actions {
           display: flex;
-          gap: 1rem;
-          margin-bottom: 2rem;
+          gap: 1.5rem;
+          margin-bottom: 3rem;
           flex-wrap: wrap;
         }
 
-        .modern-btn.primary {
-          background: rgba(255, 255, 255, 0.2);
-          backdrop-filter: blur(10px);
+        .cta-button {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.8rem;
+          padding: 16px 32px;
+          border-radius: 50px;
+          font-weight: 600;
+          font-size: 1.1rem;
+          text-decoration: none;
+          transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+          position: relative;
+          overflow: hidden;
+          letter-spacing: 0.5px;
+        }
+
+        .cta-button::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+          transition: all 0.6s ease;
+        }
+
+        .cta-button:hover::before {
+          left: 100%;
+        }
+
+        .cta-button.primary {
+          background: linear-gradient(135deg, #00d9ff, #9333ea);
           color: white;
-          border: 1px solid rgba(255, 255, 255, 0.3);
+          border: none;
+          box-shadow: 0 8px 25px rgba(0, 217, 255, 0.3);
         }
 
-        .modern-btn.primary:hover {
-          background: rgba(255, 255, 255, 0.3);
-          transform: translateY(-2px);
+        .cta-button.primary:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 15px 35px rgba(0, 217, 255, 0.4);
         }
 
-        .modern-btn.secondary {
-          background: transparent;
+        .cta-button.secondary {
+          background: rgba(255, 255, 255, 0.1);
           color: white;
           border: 2px solid rgba(255, 255, 255, 0.3);
+          backdrop-filter: blur(10px);
         }
 
-        .modern-btn.secondary:hover {
-          background: rgba(255, 255, 255, 0.1);
-          transform: translateY(-2px);
+        .cta-button.secondary:hover {
+          background: rgba(255, 255, 255, 0.2);
+          border-color: rgba(0, 217, 255, 0.5);
+          transform: translateY(-3px);
+        }
+
+        .button-icon {
+          transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover .button-icon {
+          transform: translateX(5px);
         }
 
         .social-links {
           display: flex;
-          gap: 1rem;
+          gap: 1.5rem;
         }
 
         .social-link {
-          width: 50px;
-          height: 50px;
+          position: relative;
+          width: 60px;
+          height: 60px;
           display: flex;
           align-items: center;
           justify-content: center;
-          background: rgba(255, 255, 255, 0.15);
-          border-radius: 50%;
+          border-radius: 20px;
           color: white;
           text-decoration: none;
-          transition: all 0.3s ease;
+          font-size: 1.5rem;
+          transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
           backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .social-link.linkedin {
+          background: linear-gradient(135deg, rgba(0, 119, 181, 0.8), rgba(0, 88, 133, 0.8));
+        }
+
+        .social-link.github {
+          background: linear-gradient(135deg, rgba(51, 51, 51, 0.8), rgba(0, 0, 0, 0.8));
+        }
+
+        .social-link.instagram {
+          background: linear-gradient(135deg, rgba(228, 64, 95, 0.8), rgba(131, 58, 180, 0.8));
         }
 
         .social-link:hover {
-          background: rgba(255, 255, 255, 0.25);
-          transform: translateY(-3px);
-          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+          transform: translateY(-5px) scale(1.1);
+          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .social-tooltip {
+          position: absolute;
+          bottom: -40px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: rgba(0, 0, 0, 0.8);
+          color: white;
+          padding: 8px 12px;
+          border-radius: 8px;
+          font-size: 0.9rem;
+          opacity: 0;
+          transition: all 0.3s ease;
+          pointer-events: none;
+        }
+
+        .social-link:hover .social-tooltip {
+          opacity: 1;
+          bottom: -45px;
         }
 
         @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-20px); }
+          0%, 100% { 
+            transform: translateY(0px) scale(1);
+          }
+          50% { 
+            transform: translateY(-30px) scale(1.05);
+          }
+        }
+
+        @keyframes iconFloat {
+          0%, 100% { 
+            transform: translateY(0px) rotate(0deg);
+            opacity: 0.3;
+          }
+          50% { 
+            transform: translateY(-20px) rotate(180deg);
+            opacity: 0.6;
+          }
         }
 
         @keyframes rotate {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
+          from { transform: translate(-50%, -50%) rotate(0deg); }
+          to { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
-        @keyframes blink {
-          0%, 50% { opacity: 1; }
-          51%, 100% { opacity: 0; }
+        @keyframes pulse {
+          0%, 100% { 
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0.2;
+          }
+          50% { 
+            transform: translate(-50%, -50%) scale(1.1);
+            opacity: 0.4;
+          }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 968px) {
           .profile-section {
             flex-direction: column;
             text-align: center;
-            gap: 2rem;
+            gap: 3rem;
           }
+
+          .image-container {
+            width: 300px;
+            height: 300px;
+          }
+
+          .ring-1 { width: 340px; height: 340px; }
+          .ring-2 { width: 380px; height: 380px; }
+          .ring-3 { width: 420px; height: 420px; }
 
           .hero-actions {
             justify-content: center;
           }
 
           .social-links {
+            justify-content: center;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .hero-actions {
+            flex-direction: column;
+            align-items: center;
+          }
+
+          .cta-button {
+            width: 100%;
+            max-width: 300px;
             justify-content: center;
           }
         }
