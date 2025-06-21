@@ -97,10 +97,7 @@ const Header = () => {
                 
                 {/* Hover overlay effect */}
                 <div className="image-overlay">
-                  <div className="overlay-content">
-                    <span className="overlay-text">Ali Ahammad</span>
-                    <span className="overlay-subtitle">Full Stack Developer</span>
-                  </div>
+                    <img src="images/user-3.jpg" alt="Ali Ahammad" />
                 </div>
               </div>
             </div>

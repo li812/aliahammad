@@ -9,9 +9,7 @@ import {
   FaChartBar,
   FaHdd,
   FaRocket,
-  FaCog,
-  FaMobile,
-  FaTools
+  FaEye
 } from 'react-icons/fa';
 import { 
   createAdvancedObserver, 
@@ -32,7 +30,7 @@ const TechnicalExpertise = () => {
         particleCount: 60,
         particleSize: { min: 1, max: 3 },
         speed: { min: 0.2, max: 1 },
-        color: ['#00d9ff', '#9333ea', '#64ffda'],
+        color: ['#00d9ff', '#9333ea', '#ffffff', '#64ffda'],
         opacity: { min: 0.2, max: 0.5 },
         connectionDistance: 100,
         showConnections: true
@@ -43,17 +41,14 @@ const TechnicalExpertise = () => {
   }, []);
 
   useEffect(() => {
-    // Advanced intersection observer for cards
-    const observer = createAdvancedObserver(
-      (element) => {
-        element.classList.add('animate-in');
-      },
-      {
-        threshold: 0.1,
-        rootMargin: '-50px 0px',
-        staggerDelay: 200
-      }
-    );
+    // Intersection observer for cards
+    const observer = createAdvancedObserver((element) => {
+      element.classList.add('animate-in');
+    }, {
+      threshold: 0.1,
+      rootMargin: '-50px 0px',
+      staggerDelay: 200
+    });
 
     cardRefs.current.forEach(card => {
       if (card) observer.observe(card);
@@ -74,100 +69,74 @@ const TechnicalExpertise = () => {
 
   const skillCategories = [
     {
-      title: "Backend Development",
-      icon: <FaServer size={36} />,
-      skills: ["Django", "Flask", "Spring Boot", "Express.js", "FastAPI"],
-      gradient: "from-blue-500 via-blue-600 to-indigo-700",
-      iconColor: "#3b82f6",
-      description: "Robust server-side solutions"
-    },
-    {
-      title: "Frontend Development", 
-      icon: <FaReact size={36} />,
-      skills: ["React.js", "Next.js", "Vue.js", "Bootstrap", "Tailwind CSS"],
-      gradient: "from-cyan-500 via-teal-500 to-emerald-600",
-      iconColor: "#06b6d4",
-      description: "Modern user interfaces"
-    },
-    {
-      title: "Mobile Development",
-      icon: <FaMobile size={36} />,
-      skills: ["React Native", "Flutter", "Android Studio", "iOS", "Expo"],
-      gradient: "from-green-500 via-emerald-500 to-teal-600",
-      iconColor: "#10b981",
-      description: "Cross-platform mobile apps"
-    },
-    {
       title: "Programming Languages",
       icon: <FaCode size={36} />,
-      skills: ["Python", "Java", "JavaScript", "TypeScript", "C++", "Go"],
-      gradient: "from-purple-500 via-indigo-500 to-purple-700",
+      skills: ["Python", "Java", "JavaScript", "TypeScript", "C", "C++", "R", "Swift", "Go", "Scala"],
       iconColor: "#8b5cf6",
       description: "Multi-language expertise"
     },
     {
-      title: "Machine Learning",
-      icon: <FaBrain size={36} />,
-      skills: ["Scikit-Learn", "TensorFlow", "PyTorch", "Keras", "OpenAI"],
-      gradient: "from-pink-500 via-rose-500 to-red-600",
-      iconColor: "#ec4899",
-      description: "AI & ML algorithms"
+      title: "Frontend Development", 
+      icon: <FaReact size={36} />,
+      skills: ["React.js", "Next.js", "React Native", "Bootstrap", "Tailwind CSS"],
+      iconColor: "#06b6d4",
+      description: "Modern user interfaces"
     },
     {
-      title: "Computer Vision & AI",
-      icon: <FaCog size={36} />,
-      skills: ["OpenCV", "YOLO", "MTCNN", "DPT", "Open3D", "MediaPipe"],
-      gradient: "from-orange-500 via-red-500 to-red-700",
+      title: "Backend Development",
+      icon: <FaServer size={36} />,
+      skills: ["Django", "Flask", "Spring Boot", "Express.js"],
+      iconColor: "#3b82f6",
+      description: "Robust server-side solutions"
+    },
+    {
+      title: "Databases",
+      icon: <FaDatabase size={36} />,
+      skills: ["MySQL", "PostgreSQL", "DynamoDB", "MongoDB", "Firestore", "Appwrite DB", "SQLite"],
+      iconColor: "#64748b",
+      description: "Data storage solutions"
+    },
+    {
+      title: "Artificial Intelligence",
+      icon: <FaBrain size={36} />,
+      skills: ["Scikit-Learn", "TensorFlow", "PyTorch", "Keras", "Transformers", "LangChain"],
+      iconColor: "#ec4899",
+      description: "AI, Deep learning and Machine Learning"
+    },
+    {
+      title: "Computer Vision",
+      icon: <FaEye size={36} />,
+      skills: ["OpenCV", "Scikit-Image", "YOLO", "BLIP", "KerasCV"],
       iconColor: "#f97316",
       description: "Visual intelligence systems"
     },
     {
-      title: "Data Science & Analytics",
+      title: "Data Analytics",
       icon: <FaChartBar size={36} />,
-      skills: ["Pandas", "NumPy", "Matplotlib", "Power BI", "Tableau", "Grafana"],
-      gradient: "from-emerald-500 via-green-500 to-teal-600",
+      skills: ["Pandas", "Matplotlib", "Seaborn", "Power BI", "Tableau", "Grafana"],
       iconColor: "#10b981",
       description: "Data-driven insights"
     },
     {
       title: "Big Data Technologies",
       icon: <FaHdd size={36} />,
-      skills: ["Apache Hadoop", "Apache Spark", "Kafka", "Elasticsearch"],
-      gradient: "from-yellow-500 via-amber-500 to-orange-600",
+      skills: ["Apache Hadoop", "Apache Spark"],
       iconColor: "#eab308",
       description: "Large-scale data processing"
     },
     {
-      title: "Databases",
-      icon: <FaDatabase size={36} />,
-      skills: ["MySQL", "PostgreSQL", "MongoDB", "Redis", "DynamoDB", "Firestore"],
-      gradient: "from-slate-500 via-gray-600 to-zinc-700",
-      iconColor: "#64748b",
-      description: "Data storage solutions"
-    },
-    {
       title: "DevOps & Deployment",
       icon: <FaRocket size={36} />,
-      skills: ["Docker", "Kubernetes", "AWS", "CI/CD", "Linux", "Nginx"],
-      gradient: "from-violet-500 via-purple-600 to-indigo-700",
+      skills: ["Docker", "Kubernetes", "Git", "Linux", "Cloudflare Tunnel", "Nginx"],
       iconColor: "#8b5cf6",
       description: "Infrastructure automation"
     },
     {
-      title: "Cloud & BaaS Platforms",
+      title: "Cloud Platforms",
       icon: <FaCloud size={36} />,
-      skills: ["Firebase", "Appwrite", "AWS", "Google Cloud", "DigitalOcean"],
-      gradient: "from-sky-500 via-blue-500 to-cyan-600",
+      skills: ["Firebase", "Appwrite", "AWS", "DigitalOcean"],
       iconColor: "#0ea5e9",
       description: "Cloud-native solutions"
-    },
-    {
-      title: "Development Tools",
-      icon: <FaTools size={36} />,
-      skills: ["Git", "VSCode", "Postman", "Figma", "Jira", "Jenkins"],
-      gradient: "from-indigo-500 via-purple-500 to-pink-600",
-      iconColor: "#6366f1",
-      description: "Development ecosystem"
     }
   ];
 
@@ -232,7 +201,7 @@ const TechnicalExpertise = () => {
                         style={{ '--fill-color': category.iconColor }}
                       ></div>
                     </div>
-                    <span className="progress-label">Expert Level</span>
+                    <span className="progress-label">Proficient</span>
                   </div>
                 </div>
               </div>
@@ -628,13 +597,13 @@ const TechnicalExpertise = () => {
         .tech-3 {
           bottom: 25%;
           right: 15%;
-          animation-delay: 4s;
+          animation-delay: 2s;
         }
 
         .tech-4 {
           top: 40%;
           right: 5%;
-          animation-delay: 6s;
+          animation-delay: 2s;
         }
 
         @keyframes tagSlideIn {
@@ -650,7 +619,7 @@ const TechnicalExpertise = () => {
 
         @keyframes progressFill {
           from { width: 0%; }
-          to { width: 90%; }
+          to { width: 85%; }
         }
 
         @keyframes progressShine {
