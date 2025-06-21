@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
-import { 
-  FaUser, 
-  FaPhone, 
-  FaEnvelope, 
-  FaGlobe, 
+import {
+  FaUser,
+  FaPhone,
+  FaEnvelope,
+  FaGlobe,
   FaMapMarkerAlt,
   FaLinkedin,
   FaGithub,
@@ -17,6 +17,7 @@ import {
 const About = () => {
   const aboutRef = useRef(null);
   const cardRefs = useRef([]);
+  const headerRef = useRef(null); // Add this missing ref
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -32,6 +33,11 @@ const About = () => {
       { threshold: 0.1, rootMargin: '-50px 0px' }
     );
 
+    // Add header to observer
+    if (headerRef.current) {
+      observer.observe(headerRef.current);
+    }
+
     cardRefs.current.forEach(card => {
       if (card) observer.observe(card);
     });
@@ -42,15 +48,17 @@ const About = () => {
   return (
     <section id="fh5co-about" className="about-section" ref={aboutRef}>
       <div className="modern-container">
-        <div className="section-header">
+        <div className="section-header" ref={headerRef}>
           <h2 className="section-title">About Me</h2>
           <div className="title-underline"></div>
-          <p className="section-subtitle-about">Tech enthusiast crafting digital solutions with passion and precision</p>
+          <p className="section-subtitle">
+            Tech enthusiast crafting digital solutions with passion and precision
+          </p>
         </div>
 
         <div className="about-grid">
           {/* Personal Info Card */}
-          <div 
+          <div
             className="info-card"
             ref={el => cardRefs.current[0] = el}
           >
@@ -66,7 +74,7 @@ const About = () => {
                 </div>
               </div>
             </div>
-            
+
             <div className="info-content">
               {[
                 { icon: <FaUser />, label: "Full Name", value: "Ali Ahammad" },
@@ -99,7 +107,7 @@ const About = () => {
           </div>
 
           {/* Bio Card */}
-          <div 
+          <div
             className="bio-card"
             ref={el => cardRefs.current[1] = el}
           >
@@ -173,52 +181,94 @@ const About = () => {
           pointer-events: none;
         }
 
+        .particle-container {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+        }
+
         .section-header {
           text-align: center;
           margin-bottom: 80px;
           position: relative;
           z-index: 2;
+          opacity: 0;
+          transform: translateY(50px);
+          transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .section-header.animate-in {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .header-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.75rem;
+          padding: 0.75rem 1.5rem;
+          background: rgba(0, 217, 255, 0.1);
+          border: 1px solid rgba(0, 217, 255, 0.3);
+          border-radius: 50px;
+          color: #00d9ff;
+          font-size: 1rem;
+          font-weight: 600;
+          margin-bottom: 2rem;
+          backdrop-filter: blur(10px);
+          animation: badgePulse 3s ease-in-out infinite;
+        }
+
+        .badge-icon {
+          font-size: 1.2rem;
+          animation: badgeRotate 4s ease-in-out infinite;
         }
 
         .section-title {
-          font-size: clamp(2.5rem, 5vw, 4rem);
-          font-weight: 800;
-          background: linear-gradient(135deg, #00d9ff 0%, #9333ea 100%);
+          font-size: clamp(3rem, 6vw, 5rem);
+          font-weight: 900;
+          background: linear-gradient(135deg, #00d9ff 0%, #9333ea 50%, #64ffda 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
-          margin-bottom: 1rem;
+          margin-bottom: 1.5rem;
           letter-spacing: -0.02em;
+          line-height: 1.1;
         }
 
         .title-underline {
-          width: 100px;
-          height: 4px;
-          background: linear-gradient(90deg, #00d9ff, #9333ea);
-          margin: 0 auto 1.5rem;
-          border-radius: 2px;
+          width: 150px;
+          height: 6px;
+          background: linear-gradient(90deg, #00d9ff, #9333ea, #64ffda);
+          margin: 0 auto 2rem;
+          border-radius: 3px;
           position: relative;
+          animation: shimmer 3s ease-in-out infinite;
         }
 
         .title-underline::after {
           content: '';
           position: absolute;
-          top: -4px;
+          top: -6px;
           left: 50%;
           transform: translateX(-50%);
-          width: 20px;
-          height: 12px;
+          width: 30px;
+          height: 18px;
           background: #00d9ff;
-          border-radius: 6px;
-          box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
+          border-radius: 9px;
+          box-shadow: 0 0 30px rgba(0, 217, 255, 0.7);
+          animation: pulse 2s ease-in-out infinite;
         }
 
-        .section-subtitle-about {
-          font-size: 1rem;
-          color: rgb(255, 255, 255);
-          max-width: 600px;
-          margin: 0 auto;
+        .section-subtitle {
+          font-size: 1.4rem;
+          color: rgba(255, 255, 255, 0.8);
+          max-width: 700px;
+          margin: 0 auto 3rem;
           line-height: 1.6;
+          font-weight: 400;
         }
 
         .about-grid {
@@ -498,30 +548,6 @@ const About = () => {
           font-weight: 500;
         }
 
-        .cta-button {
-          width: 100%;
-          padding: 1rem 1.5rem;
-          background: linear-gradient(135deg, #00d9ff, #9333ea);
-          color: white;
-          border: none;
-          border-radius: 16px;
-          font-size: 1rem;
-          font-weight: 600;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 0.5rem;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-        }
-
-        .cta-button:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 15px 35px rgba(0, 217, 255, 0.4);
-        }
-
         .floating-elements {
           position: absolute;
           top: 0;
@@ -587,6 +613,17 @@ const About = () => {
           50% { 
             transform: scale(1.1) rotate(5deg);
             box-shadow: 0 0 30px rgba(0, 217, 255, 0.5);
+          }
+        }
+
+        @keyframes shimmer {
+          0%, 100% { 
+            transform: scaleX(1);
+            opacity: 1;
+          }
+          50% { 
+            transform: scaleX(1.1);
+            opacity: 0.8;
           }
         }
 

@@ -12,8 +12,22 @@ import {
   FaShieldAlt,
   FaChartLine,
   FaCube,
-  FaArrowRight
+  FaArrowRight,
+  FaReact,
+  FaAws,
+  FaDocker,
+  FaPython,
+  FaLowVision
 } from 'react-icons/fa';
+import { 
+  SiArduino,
+  SiSpringboot,
+  SiDjango,
+  SiGooglecloud,
+  SiMysql
+ } from "react-icons/si";
+import { LuBrainCircuit } from "react-icons/lu";
+import { CgWebsite } from "react-icons/cg";
 import { 
   createAdvancedObserver, 
   createMagneticEffect, 
@@ -85,31 +99,31 @@ const Projects = ({
 
   const getProjectIcon = (type) => {
     const iconMap = {
-      'IoT System': <FaRocket size={20} />,
+      'IoT System': <SiArduino size={20} />,
       'Package': <FaCube size={20} />,
       'Research': <FaBrain size={20} />,
       'System': <FaCog size={20} />,
       'Security': <FaShieldAlt size={20} />,
-      'AI Application': <FaBrain size={20} />,
+      'AI Application': <LuBrainCircuit size={20} />,
       'Mobile App': <FaMobile size={20} />,
-      'Web App': <FaCode size={20} />
+      'Web App': <CgWebsite size={20} />
     };
     return iconMap[type] || <FaCode size={20} />;
   };
 
   const getTechIcon = (tech) => {
     const techIconMap = {
-      'Spring Boot': <FaCode />,
-      'Django': <FaCode />,
-      'React.js': <FaCode />,
+      'Spring Boot': <SiSpringboot />,
+      'Django': <SiDjango />,
+      'React.js': <FaReact />,
       'React Native': <FaMobile />,
-      'AWS': <FaCloud />,
-      'Google Cloud': <FaCloud />,
-      'Docker': <FaCog />,
-      'Python': <FaCode />,
-      'MySQL': <FaDatabase />,
-      'Computer Vision': <FaBrain />,
-      'Deep Learning': <FaBrain />,
+      'AWS': <FaAws />,
+      'Google Cloud': <SiGooglecloud />,
+      'Docker': <FaDocker />,
+      'Python': <FaPython />,
+      'MySQL': <SiMysql />,
+      'Computer Vision': <FaLowVision />,
+      'Deep Learning': <LuBrainCircuit />,
       'Machine Learning': <FaBrain />,
       'Security': <FaShieldAlt />
     };
@@ -123,7 +137,7 @@ const Projects = ({
       image: "images/ecozync.png",
       link: "https://github.com/li812/EcoZync-public",
       tech: ["Spring Boot", "Django", "React.js", "React Native", "AWS", "Google Cloud", "Docker", "Grafana"],
-      type: "Polyglot Realtime IoT System"
+      type: "Polyglot Realtime System"
     },
     {
       title: "LiSQL",
@@ -196,7 +210,7 @@ const Projects = ({
             <FaRocket className="badge-icon" />
             <span>Featured Work</span>
           </div>
-          <h2 className="section-title">Innovative Projects</h2>
+          <h2 className="section-title">My Projects</h2>
           <div className="title-underline"></div>
           <p className="section-subtitle">
             Cutting-edge solutions combining AI, Machine Learning, and Full-Stack Development

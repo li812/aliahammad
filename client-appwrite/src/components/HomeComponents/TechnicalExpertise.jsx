@@ -1,30 +1,30 @@
 import React, { useEffect, useRef } from 'react';
 import { 
-  FaServer, 
-  FaReact, 
   FaCode, 
-  FaBrain, 
+  FaReact, 
+  FaServer, 
   FaDatabase, 
+  FaBrain, 
+  FaEye, 
+  FaChartBar, 
+  FaHdd, 
+  FaRocket, 
   FaCloud,
-  FaChartBar,
-  FaHdd,
-  FaRocket,
-  FaEye,
   FaPython,
   FaDocker
 } from 'react-icons/fa';
-import { SiSpringboot } from "react-icons/si";
+import { SiSpringboot } from 'react-icons/si';
 import { 
   createAdvancedObserver, 
   createMagneticEffect, 
-  createParticleSystem,
-  createEntranceAnimation 
+  createParticleSystem
 } from '../../utils/animations';
 
 const TechnicalExpertise = () => {
   const sectionRef = useRef(null);
   const cardRefs = useRef([]);
   const particleContainerRef = useRef(null);
+  const headerRef = useRef(null); // Add this missing ref
 
   useEffect(() => {
     // Initialize particle system
@@ -35,7 +35,7 @@ const TechnicalExpertise = () => {
         speed: { min: 0.2, max: 1 },
         color: ['#00d9ff', '#9333ea', '#ffffff', '#64ffda'],
         opacity: { min: 0.2, max: 0.5 },
-        connectionDistance: 100,
+        connectionDistance: 80,
         showConnections: true
       });
 
@@ -50,12 +50,17 @@ const TechnicalExpertise = () => {
     }, {
       threshold: 0.1,
       rootMargin: '-50px 0px',
-      staggerDelay: 200
+      staggerDelay: 150
     });
 
     cardRefs.current.forEach(card => {
       if (card) observer.observe(card);
     });
+
+    // Observe header
+    if (headerRef.current) {
+      observer.observe(headerRef.current);
+    }
 
     return () => observer.disconnect();
   }, []);
@@ -79,7 +84,7 @@ const TechnicalExpertise = () => {
       description: "Multi-language expertise"
     },
     {
-      title: "Frontend Development", 
+      title: "Frontend Development",
       icon: <FaReact size={36} />,
       skills: ["React.js", "Next.js", "React Native", "Bootstrap", "Tailwind CSS"],
       iconColor: "#06b6d4",
@@ -147,9 +152,10 @@ const TechnicalExpertise = () => {
     <section id="fh5co-skills" className="skills-section" ref={sectionRef}>
       {/* Particle Background */}
       <div className="particle-container" ref={particleContainerRef}></div>
-      
+
       <div className="modern-container">
-        <div className="section-header">
+        {/* Remove the unnecessary wrapper div and fix the ref */}
+        <div className="section-header" ref={headerRef}>
           <h2 className="section-title">Technical Expertise</h2>
           <div className="title-underline"></div>
           <p className="section-subtitle">
@@ -159,16 +165,16 @@ const TechnicalExpertise = () => {
 
         <div className="skills-grid">
           {skillCategories.map((category, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className="skill-card"
               ref={el => cardRefs.current[index] = el}
             >
               <div className="card-glow"></div>
               <div className="card-content">
                 <div className="skill-header">
-                  <div 
-                    className="skill-icon" 
+                  <div
+                    className="skill-icon"
                     style={{ '--icon-color': category.iconColor }}
                   >
                     {category.icon}
@@ -180,15 +186,15 @@ const TechnicalExpertise = () => {
                     <div className="skill-count">{category.skills.length} technologies</div>
                   </div>
                 </div>
-                
+
                 <div className="skill-tags">
                   {category.skills.map((skill, skillIndex) => (
-                    <span 
-                      key={skillIndex} 
+                    <span
+                      key={skillIndex}
                       className="skill-tag"
-                      style={{ 
+                      style={{
                         '--delay': `${skillIndex * 0.1}s`,
-                        '--index': skillIndex 
+                        '--index': skillIndex
                       }}
                     >
                       {skill}
@@ -199,8 +205,8 @@ const TechnicalExpertise = () => {
                 <div className="card-footer">
                   <div className="progress-container">
                     <div className="progress-bar">
-                      <div 
-                        className="progress-fill" 
+                      <div
+                        className="progress-fill"
                         style={{ '--fill-color': category.iconColor }}
                       ></div>
                     </div>
@@ -258,11 +264,49 @@ const TechnicalExpertise = () => {
           z-index: 1;
         }
 
+                .particle-container {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+        }
+
         .section-header {
           text-align: center;
           margin-bottom: 80px;
           position: relative;
           z-index: 2;
+          opacity: 0;
+          transform: translateY(50px);
+          transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .section-header.animate-in {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .header-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.75rem;
+          padding: 0.75rem 1.5rem;
+          background: rgba(0, 217, 255, 0.1);
+          border: 1px solid rgba(0, 217, 255, 0.3);
+          border-radius: 50px;
+          color: #00d9ff;
+          font-size: 1rem;
+          font-weight: 600;
+          margin-bottom: 2rem;
+          backdrop-filter: blur(10px);
+          animation: badgePulse 3s ease-in-out infinite;
+        }
+
+        .badge-icon {
+          font-size: 1.2rem;
+          animation: badgeRotate 4s ease-in-out infinite;
         }
 
         .section-title {
@@ -305,10 +349,11 @@ const TechnicalExpertise = () => {
           font-size: 1.4rem;
           color: rgba(255, 255, 255, 0.8);
           max-width: 700px;
-          margin: 0 auto;
+          margin: 0 auto 3rem;
           line-height: 1.6;
           font-weight: 400;
         }
+
 
         .skills-grid {
           display: grid;
