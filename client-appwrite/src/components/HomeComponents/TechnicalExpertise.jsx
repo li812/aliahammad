@@ -9,8 +9,11 @@ import {
   FaChartBar,
   FaHdd,
   FaRocket,
-  FaEye
+  FaEye,
+  FaPython,
+  FaDocker
 } from 'react-icons/fa';
+import { SiSpringboot } from "react-icons/si";
 import { 
   createAdvancedObserver, 
   createMagneticEffect, 
@@ -215,6 +218,10 @@ const TechnicalExpertise = () => {
           <div className="tech-float tech-2"><FaBrain /></div>
           <div className="tech-float tech-3"><FaRocket /></div>
           <div className="tech-float tech-4"><FaDatabase /></div>
+          <div className="tech-float tech-5"><FaPython /></div>
+          <div className="tech-float tech-6"><FaReact /></div>
+          <div className="tech-float tech-7"><SiSpringboot /></div>
+          <div className="tech-float tech-8"><FaDocker /></div>
         </div>
       </div>
 
@@ -578,33 +585,81 @@ const TechnicalExpertise = () => {
         .tech-float {
           position: absolute;
           font-size: 2.5rem;
-          color: rgba(0, 217, 255, 0.2);
+          color: rgba(0, 217, 255, 0.61);
           animation: floatMove 8s ease-in-out infinite;
         }
 
         .tech-1 {
-          top: 15%;
-          right: 10%;
-          animation-delay: 0s;
-        }
+  top: 15%;
+  right: 10%;
+  animation-delay: 0s;
+}
 
-        .tech-2 {
-          top: 60%;
-          left: 5%;
-          animation-delay: 2s;
-        }
+.tech-2 {
+  top: 60%;
+  left: 5%;
+  animation-delay: 2s;
+}
 
-        .tech-3 {
-          bottom: 25%;
-          right: 15%;
-          animation-delay: 2s;
-        }
+.tech-3 {
+  bottom: 25%;
+  right: 15%;
+  animation-delay: 2s;
+}
 
-        .tech-4 {
-          top: 40%;
-          right: 5%;
-          animation-delay: 2s;
-        }
+.tech-4 {
+  top: 40%;
+  right: 5%;
+  animation-delay: 2s;
+}
+
+.tech-5 {
+  bottom: 10%;
+  left: 20%;
+  animation-delay: 1s;
+}
+
+.tech-6 {
+  top: 10%;
+  left: 15%;
+  animation-delay: 3s;
+}
+
+.tech-7 {
+  top: 75%;
+  right: 20%;
+  animation-delay: 0.5s;
+}
+
+.tech-8 {
+  bottom: 5%;
+  right: 10%;
+  animation-delay: 1.5s;
+}
+
+.tech-9 {
+  top: 20%;
+  left: 30%;
+  animation-delay: 2.5s;
+}
+
+.tech-10 {
+  bottom: 35%;
+  left: 10%;
+  animation-delay: 1s;
+}
+
+.tech-11 {
+  top: 50%;
+  right: 25%;
+  animation-delay: 3s;
+}
+
+.tech-12 {
+  bottom: 15%;
+  right: 5%;
+  animation-delay: 0.8s;
+}
 
         @keyframes tagSlideIn {
           from {
