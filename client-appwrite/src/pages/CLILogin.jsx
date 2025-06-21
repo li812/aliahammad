@@ -352,37 +352,71 @@ const CLILogin = () => {
           }}>
             <span style={{ 
               color: getTextColor('prompt'),
-              marginRight: '8px'
+              marginRight: '8px',
+              whiteSpace: 'nowrap'
             }}>
               {getCurrentPrompt()}
             </span>
-            <input
-              ref={inputRef}
-              type={step === 'password' ? 'password' : 'text'}
-              value={currentInput}
-              onChange={(e) => setCurrentInput(e.target.value)}
-              onKeyDown={handleKeyPress}
-              style={{
-                backgroundColor: 'transparent',
-                border: 'none',
-                outline: 'none',
-                color: '#fff',
-                fontFamily: 'Monaco, "Lucida Console", monospace',
-                fontSize: '14px',
-                flex: 1,
-                caretColor: '#00ff00'
-              }}
-              autoComplete="off"
-              disabled={isLoading}
-              placeholder={step === 'welcome' ? 'Type "help" for commands...' : ''}
-            />
-            <span style={{
-              color: '#00ff00',
-              animation: 'blink 1s infinite',
-              marginLeft: '2px'
+            
+            {/* Terminal input container */}
+            <div style={{
+              flex: 1,
+              position: 'relative',
+              fontFamily: 'Monaco, "Lucida Console", monospace',
+              fontSize: '14px',
+              color: '#fff'
             }}>
-              █
-            </span>
+              {/* Visible text with cursor */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                minHeight: '20px'
+              }}>
+                {/* Display current input text */}
+                <span style={{ 
+                  color: '#fff',
+                  whiteSpace: 'pre' // Preserve spaces
+                }}>
+                  {step === 'password' ? '*'.repeat(currentInput.length) : currentInput}
+                </span>
+                
+                {/* Blinking cursor */}
+                <span style={{
+                  color: '#00ff00',
+                  animation: 'blink 1s infinite',
+                  marginLeft: '1px'
+                }}>
+                  █
+                </span>
+              </div>
+              
+              {/* Hidden input for capturing keystrokes */}
+              <input
+                ref={inputRef}
+                type="text"
+                value={currentInput}
+                onChange={(e) => setCurrentInput(e.target.value)}
+                onKeyDown={handleKeyPress}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  outline: 'none',
+                  color: 'transparent', // Make input text invisible
+                  caretColor: 'transparent', // Hide default cursor
+                  fontFamily: 'Monaco, "Lucida Console", monospace',
+                  fontSize: '14px',
+                  zIndex: 1
+                }}
+                autoComplete="off"
+                disabled={isLoading}
+                placeholder=""
+              />
+            </div>
           </div>
         )}
         
@@ -409,11 +443,16 @@ const CLILogin = () => {
           }
           
           @keyframes dots {
-            0% { content: ''; }
-            25% { content: '.'; }
-            50% { content: '..'; }
-            75% { content: '...'; }
-            100% { content: ''; }
+            0% { opacity: 0; }
+            25% { opacity: 1; }
+            50% { opacity: 1; }
+            75% { opacity: 0; }
+            100% { opacity: 0; }
+          }
+          
+          /* Ensure input focus doesn't show default cursor */
+          input:focus {
+            caret-color: transparent !important;
           }
           
           /* Custom scrollbar */
