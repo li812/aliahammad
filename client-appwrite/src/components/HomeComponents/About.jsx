@@ -45,7 +45,7 @@ const About = () => {
         <div className="section-header">
           <h2 className="section-title">About Me</h2>
           <div className="title-underline"></div>
-          <p className="section-subtitle">Tech enthusiast crafting digital solutions with passion and precision</p>
+          <p className="section-subtitle-about">Tech enthusiast crafting digital solutions with passion and precision</p>
         </div>
 
         <div className="about-grid">
@@ -138,15 +138,6 @@ const About = () => {
                   <div className="stat-label">Technologies</div>
                 </div>
               </div>
-
-              <button className="cta-button">
-                <span>Download Resume</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                  <polyline points="7,10 12,15 17,10"/>
-                  <line x1="12" y1="15" x2="12" y2="3"/>
-                </svg>
-              </button>
             </div>
           </div>
         </div>
@@ -165,7 +156,7 @@ const About = () => {
           position: relative;
           background: linear-gradient(135deg, #0a0e27 0%, #1e1e2e 50%, #2d1b69 100%);
           overflow: hidden;
-          padding: 120px 0;
+          padding: 100px 0;
           color: white;
         }
 
@@ -222,8 +213,8 @@ const About = () => {
           box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
         }
 
-        .section-subtitle {
-          font-size: 1.25rem;
+        .section-subtitle-about {
+          font-size: 1rem;
           color: rgb(255, 255, 255);
           max-width: 600px;
           margin: 0 auto;
@@ -454,7 +445,7 @@ const About = () => {
         }
 
         .bio-content p {
-          font-size: 1.1rem;
+          font-size: 1rem;
           line-height: 1.7;
           color: rgba(255, 255, 255, 0.96);
           margin-bottom: 1.5rem;

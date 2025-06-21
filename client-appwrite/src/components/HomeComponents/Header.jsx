@@ -31,8 +31,8 @@ const Header = () => {
         'Software Developer',
         'Data Science Enthusiast', 
         'AI Researcher',
-        'Full Stack Developer',
-        'Machine Learning Engineer'
+        'Student',
+        'Mentor',
       ];
       
       // Clear the element content first
@@ -85,7 +85,7 @@ const Header = () => {
       <div className="modern-container">
         <div className="hero-content">
           <div className="profile-section">
-            <div className="profile-image hero-animate">
+            <div className="profile-image-large hero-animate">
               <div className="image-container">
                 <img src="images/user-3.jpg" alt="Ali Ahammad" />
                 <div className="profile-rings">
@@ -94,6 +94,14 @@ const Header = () => {
                   <div className="ring ring-3"></div>
                 </div>
                 <div className="glow-effect"></div>
+                
+                {/* Hover overlay effect */}
+                <div className="image-overlay">
+                  <div className="overlay-content">
+                    <span className="overlay-text">Ali Ahammad</span>
+                    <span className="overlay-subtitle">Full Stack Developer</span>
+                  </div>
+                </div>
               </div>
             </div>
             
@@ -112,10 +120,9 @@ const Header = () => {
                 <span className="typing-text" ref={typewriterRef}></span>
               </div>
               
-              
               <div className="hero-actions hero-animate">
                 <a href="#fh5co-about" className="cta-button primary">
-                  <span>Explore My Work</span>
+                  <span>More</span>
                   <FaArrowRight className="button-icon" />
                 </a>
                 <a href="#fh5co-consult" className="cta-button secondary">
@@ -263,21 +270,26 @@ const Header = () => {
         .profile-section {
           display: flex;
           align-items: center;
-          gap: 4rem;
+          gap: 27px; /* Exact 27px gap between image and content */
           flex-wrap: wrap;
         }
 
         .profile-image {
           position: relative;
           flex-shrink: 0;
-          width: 380px;
-          height: 380px;
+          transform: translateY(-26px); /* Raise the image by 26px */
         }
 
         .image-container {
           position: relative;
-          width: 380px;
-          height: 380px;
+          width: 320px;
+          height: 320px;
+          cursor: pointer;
+          transition: all 0.4s ease;
+        }
+
+        .image-container:hover {
+          transform: scale(1.05);
         }
 
         .image-container img {
@@ -288,6 +300,12 @@ const Header = () => {
           border: 4px solid rgba(0, 217, 255, 0.3);
           position: relative;
           z-index: 3;
+          transition: all 0.4s ease;
+        }
+
+        .image-container:hover img {
+          border-color: rgba(0, 217, 255, 0.6);
+          box-shadow: 0 0 40px rgba(0, 217, 255, 0.4);
         }
 
         .profile-rings {
@@ -304,25 +322,30 @@ const Header = () => {
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
+          transition: all 0.4s ease;
+        }
+
+        .image-container:hover .ring {
+          animation-play-state: paused;
         }
 
         .ring-1 {
-          width: 420px;
-          height: 420px;
+          width: 360px;
+          height: 360px;
           border-color: rgba(0, 217, 255, 0.4);
           animation: rotate 15s linear infinite;
         }
 
         .ring-2 {
-          width: 460px;
-          height: 460px;
+          width: 400px;
+          height: 400px;
           border-color: rgba(147, 51, 234, 0.3);
           animation: rotate 20s linear infinite reverse;
         }
 
         .ring-3 {
-          width: 500px;
-          height: 500px;
+          width: 440px;
+          height: 440px;
           border-color: rgba(100, 255, 218, 0.2);
           animation: rotate 25s linear infinite;
         }
@@ -332,16 +355,73 @@ const Header = () => {
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          width: 400px;
-          height: 400px;
+          width: 340px;
+          height: 340px;
           background: radial-gradient(circle, rgba(0, 217, 255, 0.2) 0%, transparent 70%);
           border-radius: 50%;
           animation: pulse 3s ease-in-out infinite;
+          transition: all 0.4s ease;
+        }
+
+        .image-container:hover .glow-effect {
+          background: radial-gradient(circle, rgba(0, 217, 255, 0.4) 0%, transparent 70%);
+          transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        /* Image hover overlay effect */
+        .image-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(135deg, rgba(0, 217, 255, 0.9), rgba(147, 51, 234, 0.9));
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+          z-index: 4;
+          backdrop-filter: blur(10px);
+        }
+
+        .image-container:hover .image-overlay {
+          opacity: 1;
+        }
+
+        .overlay-content {
+          text-align: center;
+          transform: translateY(20px);
+          transition: all 0.4s ease;
+        }
+
+        .image-container:hover .overlay-content {
+          transform: translateY(0);
+        }
+
+        .overlay-text {
+          display: block;
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: white;
+          margin-bottom: 0.5rem;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .overlay-subtitle {
+          display: block;
+          font-size: 1rem;
+          color: rgba(255, 255, 255, 0.9);
+          font-weight: 500;
         }
 
         .hero-text {
           flex: 1;
           min-width: 300px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
         }
 
         .hero-greeting {
@@ -353,6 +433,12 @@ const Header = () => {
           color: rgba(255, 255, 255, 0.8);
           font-weight: 400;
           letter-spacing: 0.1em;
+          transition: all 0.3s ease;
+        }
+
+        .greeting-text:hover {
+          color: rgba(0, 217, 255, 0.9);
+          transform: translateX(5px);
         }
 
         .hero-title {
@@ -369,6 +455,17 @@ const Header = () => {
           -webkit-text-fill-color: transparent;
           background-clip: text;
           position: relative;
+          transition: all 0.3s ease;
+          cursor: pointer;
+        }
+
+        .name-text:hover {
+          background: linear-gradient(135deg, #64ffda 0%, #00d9ff 50%, #9333ea 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          transform: translateY(-2px);
+          text-shadow: 0 4px 8px rgba(0, 217, 255, 0.4);
         }
 
         .title-decoration {
