@@ -1,0 +1,112 @@
+ALI AHAMMAD  
++91 9895850894  
+254, 12-Muri Nagar, 691020, Kerala, India  
+mail@aliahammad.com  
+GitHub: https://github.com/li812  
+LinkedIn: https://www.linkedin.com/in/ali-ahammad-li0812/  
+Portfolio: www.aliahammad.com  
+
+---
+
+SUMMARY  
+Motivated and technically skilled software developer with a strong academic and project background in backend development, cloud deployment, and AI integration. Experienced in Web Application, Mobile-App development, AI, and Cloud. Eager to contribute to an organization by building scalable and impactful systems.
+
+---
+
+EDUCATION  
+Master of Computer Application  
+University of Kerala  
+2023 – 2025  
+
+Bachelor of Science in Computer Science  
+University of Kerala  
+2019 – 2022  
+
+Master in Data Science  
+SMEClabs  
+2023  
+
+---
+
+CERTIFICATIONS AND TRAINING  
+IBM Data Science – IBM, 2025  
+IBM AI Developer – IBM, 2025  
+Data Analysis with Python – IBM, 2025  
+Meta React Native – Meta, 2025  
+Google Cybersecurity – Google, 2024  
+Intermediate Machine Learning – Kaggle, 2023  
+Advanced Google Analytics – Google, 2023  
+Data Analysis with Python – freeCodeCamp, 2023  
+
+---
+
+PROFESSIONAL EXPERIENCE  
+Intern Software Developer – AI, IoT & Django  
+Serve Techno Research, Kollam, Kerala, India  
+2023 – 2025  
+
+Freelance Full Stack Web/ML/DL Developer  
+2019 – Present  
+
+Programming Language Trainer  
+G-Tec Computer Education, Karicode, Kollam, Kerala, India 
+May 2021 – September 2022  
+
+---
+
+PROJECTS  
+
+LiSQL  
+An open-source Python package to simplify data extraction and merging from multiple MySQL servers and databases. Ideal for data science projects.  
+📦 PyPI: https://pypi.org/project/lisql/  
+🔗 GitHub: https://github.com/li812/lisql  
+
+3D Face Reconstructor  
+Generates a 3D model of a human face from a 2D image using MTCNN (facial detection), DPT (depth estimation), and Open3D (mesh generation).  
+🔗 GitHub: https://github.com/li812/3D-Face-Recontructor  
+
+EcoZync  
+A full-stack IoT-based environmental monitoring system that integrates:  
+- Multi-cloud services (AWS RDS MySQL, DynamoDB, Google Cloud AI)  
+- Multi-backend architecture (Spring Boot, Django)  
+- Multi-frontend platforms (React.js, React Native, Grafana, Arduino UI)  
+- Features real-time data monitoring, AI-generated environmental insights using NLP, secure auth with AWS Cognito, and Docker deployment.  
+🔗 GitHub: https://github.com/li812/EcoZync-public  
+
+Pandemic Controlling System (PCS)  
+A health response platform built with Django, MySQL, and a Java-based Android app. Connects authorities, health workers, and public stakeholders for effective pandemic management. Includes CNN-based test result classification using PyTorch.  
+🔗 GitHub: https://github.com/li812/Pandemic-Controlling-System  
+
+Phishing URL Checker  
+A machine learning-based solution to identify and classify phishing URLs in real time.  
+🔗 GitHub: https://github.com/li812/Phishing-URL-Checker  
+
+Deepfake Detection with Meso4 (Django App)  
+Detects deepfakes in videos using the Meso4 CNN model. Integrated with Django for web deployment.  
+🔗 GitHub: https://github.com/li812/Deepfake-Detection-Meso4-Django  
+
+---
+
+TECHNICAL SKILLS  
+
+▶ Backend Development: Django, Flask, Spring Boot, Express.js  
+▶ Frontend Development: React.js, Next.js, React Native, Bootstrap, Tailwind  
+▶ Programming Languages: Python, Java, JavaScript, TypeScript, C, C++, R, Swift, Go, Scala  
+▶ Machine Learning: Scikit-Learn  
+▶ Deep Learning: TensorFlow, PyTorch  
+▶ Computer Vision: OpenCV, Scikit-Image, YOLO, BLIP  
+▶ Data Analysis & Visualization: Pandas, Matplotlib, Seaborn, Power BI, Tableau, Grafana  
+▶ Big Data Technologies: Apache Hadoop, Apache Spark  
+▶ Databases: MySQL, PostgreSQL, DynamoDB, MongoDB, Firestore, Appwrite DB, SQLite  
+▶ DevOps & Deployment: Docker, Kubernetes, Git, Linux, Cloudflare Tunnel, Nginx  
+▶ Cloud & BaaS Platforms: Firebase, Appwrite, AWS, DigitalOcean  
+
+---
+
+SOFT SKILLS  
+✓ Problem Solving  
+✓ Communication  
+✓ Continuous Learning  
+✓ Teaching  
+
+---

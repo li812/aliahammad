@@ -1,9 +1,10 @@
 import React from 'react';
-import { useGoToTopEffect } from '../../utils/effects';
+import { useParallaxEffect, useFullHeightEffect } from '../../utils/effects';
 
 const Footer = () => {
-  // Apply go-to-top functionality
-  useGoToTopEffect();
+  // Apply parallax and full height effects like Header
+  useParallaxEffect();
+  useFullHeightEffect();
 
   return (
     <>

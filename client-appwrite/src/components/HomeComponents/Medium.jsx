@@ -1,8 +1,13 @@
 import React from 'react';
+import { useParallaxEffect, useFullHeightEffect } from '../../utils/effects';
 
 const Medium = () => {
+  // Apply parallax and full height effects like Header
+  useParallaxEffect();
+  useFullHeightEffect();
+
   return (
-    <div id="fh5co-blog" className="fh5co-bg-dark">
+    <div id="fh5co-blog" className="fh5co-bg-dark js-fullheight">
       <div className="container">
         <div className="row animate-box" data-animate-effect="fadeInUp">
           <div className="col-md-8 col-md-offset-2 text-center fh5co-heading">

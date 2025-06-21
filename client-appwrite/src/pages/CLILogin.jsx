@@ -157,11 +157,12 @@ const CLILogin = () => {
     const displayCommand = step === 'password' ? '*'.repeat(command.length) : command;
     addOutput(`${getCurrentPrompt()} ${displayCommand}`, 'input');
 
-    // Handle special commands in any step (except authenticating)
-    if (step !== 'authenticating' && handleSpecialCommands(command)) {
-      return;
+    // Handle special commands first - and RETURN if handled
+    if (handleSpecialCommands(command)) {
+      return; // ✅ This prevents the switch statement from running
     }
 
+    // Only continue to the switch statement if it's NOT a special command
     switch (step) {
       case 'welcome':
         // In welcome state, only special commands work
@@ -207,11 +208,8 @@ const CLILogin = () => {
           if (response.success) {
             addOutput('✓ Authentication successful!', 'success');
             addOutput('Welcome to the admin dashboard.', 'success');
-            addOutput('Redirecting...', 'info');
-            
-            setTimeout(() => {
-              navigate('/dashboard');
-            }, 1500);
+            addOutput('Type "dashboard" to access admin panel.', 'prompt');
+            setStep('welcome'); // ✅ Reset to welcome after successful login
           } else {
             addOutput(`✗ Authentication failed: ${response.error}`, 'error');
             resetToEmail();
@@ -288,7 +286,7 @@ const CLILogin = () => {
       case 'authenticating':
         return '';
       default:
-        return 'admin@console:~$';
+        return isAuthenticated ? 'root@console:~#' : 'admin@console:~$';
     }
   };
 

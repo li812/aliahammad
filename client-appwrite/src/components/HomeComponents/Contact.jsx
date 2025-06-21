@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useFormEffect } from '../../utils/effects';
+import { useParallaxEffect, useFullHeightEffect } from '../../utils/effects';
 import { ContactController } from '../../controllers/contactController';
 
 const Contact = () => {
@@ -7,8 +7,9 @@ const Contact = () => {
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState(''); // 'success' or 'error'
 
-  // Apply form animations
-  useFormEffect();
+  // Apply parallax and full height effects like Header
+  useParallaxEffect();
+  useFullHeightEffect();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -59,7 +60,7 @@ const Contact = () => {
   };
 
   return (
-    <div id="fh5co-consult">
+    <div id="fh5co-consult" className="js-fullheight">
       <div className="video fh5co-video" style={{backgroundImage: 'url(images/cover_bg_1.jpg)'}}>
         <div className="overlay"></div>
       </div>
@@ -165,6 +166,7 @@ const Contact = () => {
           </div>
         </form>	
       </div>
+      
     </div>
   );
 };
