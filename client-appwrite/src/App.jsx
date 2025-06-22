@@ -6,7 +6,7 @@ import TechnicalExpertise from './components/HomeComponents/TechnicalExpertise'
 import Projects from './components/HomeComponents/Projects'
 import Experience from './components/HomeComponents/Experience'
 import CertificationsAndLicenses from './components/HomeComponents/CertificationsAndLicenses'
-import Medium from './components/HomeComponents/Medium'
+import ArticlesAndBlogs from './components/HomeComponents/ArticlesAndBlogs'
 import Contact from './components/HomeComponents/Contact'
 import Footer from './components/HomeComponents/Footer'
 import CLILogin from './pages/CLILogin'
@@ -24,7 +24,7 @@ const Home = () => {
       <Projects />
       <Experience />
       <CertificationsAndLicenses />
-      <Medium />
+      <ArticlesAndBlogs />
       <Contact />
       <Footer />
     </div>
