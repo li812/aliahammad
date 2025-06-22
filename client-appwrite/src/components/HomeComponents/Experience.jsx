@@ -464,7 +464,7 @@ const Experience = ({
                   <div className="card-content">
                     <p className="description">{item.description}</p>
 
-                    <div className="technologies">
+                    {/* <div className="technologies">
                       <h6 className="section-title-small">Technologies & Skills</h6>
                       <div className="tech-tags">
                         {item.technologies.map((tech, techIndex) => (
@@ -490,7 +490,7 @@ const Experience = ({
                           </li>
                         ))}
                       </ul>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -569,7 +569,7 @@ const Experience = ({
                       </div>
                     </div>
 
-                    <div className="achievements">
+                    {/* <div className="achievements">
                       <h6 className="section-title-small">Highlights</h6>
                       <ul className="achievements-list">
                         {item.achievements.map((achievement, achIndex) => (
@@ -579,7 +579,7 @@ const Experience = ({
                           </li>
                         ))}
                       </ul>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

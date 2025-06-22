@@ -566,7 +566,7 @@ const CertificationsAndLicenses = ({
               >
                 {getStatusBadge(cert.expires).icon}
               {cert.featured && (
-                <div className="featured-badge">
+                <div className="featured-badge-cer">
                   <FaTrophy />
                 </div>
               )}
@@ -980,7 +980,7 @@ const CertificationsAndLicenses = ({
           font-size: 0.9rem;
         }
 
-        .featured-badge {
+        .featured-badge-cer {
           position: absolute;
           top: 0rem;
           right: 3rem;
