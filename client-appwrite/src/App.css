@@ -483,6 +483,12 @@ body {
 
 
 
+#fh5co-consult {
+  background: linear-gradient(135deg, rgba(0, 217, 255, 0.8), rgba(0, 180, 216, 0.8)),
+              url('images/cover_bg_1.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+}
 
 /* Smooth scroll behavior */
 html {

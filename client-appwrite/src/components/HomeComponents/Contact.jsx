@@ -218,7 +218,7 @@ const Contact = ({
   ];
 
   return (
-    <section id="fh5co-consult" className="contact-section" ref={sectionRef}>
+    <section className="contact-section" ref={sectionRef}>
       {/* Particle Background */}
       <div className="particle-container" ref={particleContainerRef}></div>
 

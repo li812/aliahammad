@@ -375,7 +375,7 @@ const ArticlesAndBlogs = ({
         .section-header {
           text-align: center;
           margin-bottom: 60px;
-          opacity: 1;
+          opacity: 0;
           transform: translateY(50px);
           transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
@@ -864,11 +864,6 @@ const ArticlesAndBlogs = ({
         .footer-content {
           max-width: 600px;
           margin: 0 auto;
-          padding: 2rem;
-          background: rgba(255, 255, 255, 0.03);
-          border-radius: 20px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(10px);
         }
 
         .footer-title {
@@ -879,8 +874,6 @@ const ArticlesAndBlogs = ({
           -webkit-text-fill-color: transparent;
           background-clip: text;
           margin-bottom: 1rem;
-          opacity: 1 !important;
-          display: block !important;
         }
 
         .footer-description {
@@ -888,8 +881,6 @@ const ArticlesAndBlogs = ({
           color: rgba(255, 255, 255, 0.8);
           margin-bottom: 2rem;
           line-height: 1.6;
-          opacity: 1 !important;
-          display: block !important;
         }
 
         .medium-cta {
