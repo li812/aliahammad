@@ -302,8 +302,8 @@ const ArticlesAndBlogs = ({
         </div>
 
         {/* Section Footer */}
-        <div className="section-footer">
-          <div className="footer-content">
+        <div className="section-footer-art">
+          <div className="footer-content-art">
             <h3 className="footer-title">More Articles Coming Soon</h3>
             <p className="footer-description">
               Stay tuned for more insights on technology, AI, and software development
@@ -854,14 +854,14 @@ const ArticlesAndBlogs = ({
           left: 100%;
         }
 
-        .section-footer {
+        .section-footer-art {
           text-align: center;
           margin-top: 6rem;
           position: relative;
           z-index: 2;
         }
 
-        .footer-content {
+        .footer-content-art {
           max-width: 600px;
           margin: 0 auto;
         }
