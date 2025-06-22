@@ -1,3 +1,5 @@
+/* filepath: /Users/li/GitHub/aliahammad/client-appwrite/src/components/HomeComponents/ArticlesAndBlogs.jsx */
+
 import React, { useEffect, useRef, useState } from 'react';
 import {
   FaRocket,
@@ -11,7 +13,9 @@ import {
   FaBrain,
   FaCode,
   FaDatabase,
-  FaCloud
+  FaCloud,
+  FaPause,
+  FaPlay
 } from 'react-icons/fa';
 import {
   SiMedium,
@@ -29,19 +33,45 @@ const ArticlesAndBlogs = ({
   showParticles = true,
   animationDuration = 1000,
   staggerDelay = 200,
-  cardHoverEffect = true
+  cardHoverEffect = false,
+  enableAnimations = true // New prop for animation control
 }) => {
   const sectionRef = useRef(null);
   const cardRefs = useRef([]);
   const particleContainerRef = useRef(null);
   const headerRef = useRef(null);
+  const particleSystemRef = useRef(null);
   const [activeFilter, setActiveFilter] = useState('all');
   const [filteredArticles, setFilteredArticles] = useState([]);
+  const [animationsEnabled, setAnimationsEnabled] = useState(enableAnimations);
 
-  useEffect(() => {
-    // Initialize particle system
-    if (particleContainerRef.current && showParticles) {
-      const particleSystem = createParticleSystem(particleContainerRef.current, {
+  // Animation kill switch function
+  const toggleAnimations = () => {
+    setAnimationsEnabled(!animationsEnabled);
+
+    // Kill particle system if disabled
+    if (animationsEnabled && particleSystemRef.current) {
+      particleSystemRef.current.destroy();
+      particleSystemRef.current = null;
+    } else if (!animationsEnabled && particleContainerRef.current && showParticles) {
+      // Restart particle system if enabled
+      initializeParticleSystem();
+    }
+
+    // Add or remove animation-disabled class to section
+    if (sectionRef.current) {
+      if (animationsEnabled) {
+        sectionRef.current.classList.add('animations-disabled');
+      } else {
+        sectionRef.current.classList.remove('animations-disabled');
+      }
+    }
+  };
+
+  // Initialize particle system
+  const initializeParticleSystem = () => {
+    if (particleContainerRef.current && showParticles && animationsEnabled) {
+      particleSystemRef.current = createParticleSystem(particleContainerRef.current, {
         particleCount: 50,
         particleSize: { min: 1, max: 3 },
         speed: { min: 0.2, max: 0.8 },
@@ -50,35 +80,57 @@ const ArticlesAndBlogs = ({
         connectionDistance: 100,
         showConnections: true
       });
-
-      return () => particleSystem.destroy();
     }
-  }, [showParticles]);
+  };
 
   useEffect(() => {
-    // Intersection observer for animations
-    const observer = createAdvancedObserver((element) => {
-      element.classList.add('animate-in');
-    }, {
-      threshold: 0.1,
-      rootMargin: '-50px 0px',
-      staggerDelay: staggerDelay
-    });
-
-    cardRefs.current.forEach(card => {
-      if (card) observer.observe(card);
-    });
-
-    if (headerRef.current) {
-      observer.observe(headerRef.current);
+    // Initialize particle system only if animations are enabled
+    if (animationsEnabled) {
+      initializeParticleSystem();
     }
 
-    return () => observer.disconnect();
-  }, [staggerDelay, filteredArticles]);
+    return () => {
+      if (particleSystemRef.current) {
+        particleSystemRef.current.destroy();
+        particleSystemRef.current = null;
+      }
+    };
+  }, [showParticles, animationsEnabled]);
 
   useEffect(() => {
-    // Magnetic effect for cards
-    if (cardHoverEffect) {
+    // Intersection observer for animations - only if enabled
+    if (animationsEnabled) {
+      const observer = createAdvancedObserver((element) => {
+        element.classList.add('animate-in');
+      }, {
+        threshold: 0.1,
+        rootMargin: '-50px 0px',
+        staggerDelay: staggerDelay
+      });
+
+      cardRefs.current.forEach(card => {
+        if (card) observer.observe(card);
+      });
+
+      if (headerRef.current) {
+        observer.observe(headerRef.current);
+      }
+
+      return () => observer.disconnect();
+    } else {
+      // If animations disabled, immediately show all elements
+      cardRefs.current.forEach(card => {
+        if (card) card.classList.add('animate-in');
+      });
+      if (headerRef.current) {
+        headerRef.current.classList.add('animate-in');
+      }
+    }
+  }, [staggerDelay, filteredArticles, animationsEnabled]);
+
+  useEffect(() => {
+    // Magnetic effect for cards - only if enabled
+    if (cardHoverEffect && animationsEnabled) {
       const cards = cardRefs.current.filter(card => card !== null);
       createMagneticEffect(cards, {
         strength: 20,
@@ -86,7 +138,7 @@ const ArticlesAndBlogs = ({
         triggerArea: 1.2
       });
     }
-  }, [cardHoverEffect, filteredArticles]);
+  }, [filteredArticles, cardHoverEffect, animationsEnabled]);
 
   // Get category icon
   const getCategoryIcon = (category) => {
@@ -185,7 +237,22 @@ const ArticlesAndBlogs = ({
   };
 
   return (
-    <section id="fh5co-blog" className="articles-section" ref={sectionRef}>
+    <section
+      id="fh5co-blog"
+      className={`articles-section ${!animationsEnabled ? 'animations-disabled' : ''}`}
+      ref={sectionRef}
+    >
+      {/* Animation Kill Switch */}
+      <div className="animation-control">
+        <button
+          onClick={toggleAnimations}
+          className="animation-toggle-btn"
+          title={animationsEnabled ? 'Disable Animations' : 'Enable Animations'}
+        >
+          {animationsEnabled ? <FaPause /> : <FaPlay />}
+        </button>
+      </div>
+
       {/* Particle Background */}
       <div className="particle-container" ref={particleContainerRef}></div>
 
@@ -214,7 +281,6 @@ const ArticlesAndBlogs = ({
             </button>
           ))}
         </div>
-
 
         {/* Articles Grid */}
         <div className="articles-grid">
@@ -284,7 +350,6 @@ const ArticlesAndBlogs = ({
                   )}
                 </div>
 
-
                 {/* Read More Button */}
                 <a
                   href={article.link}
@@ -341,6 +406,77 @@ const ArticlesAndBlogs = ({
           min-height: 100vh;
         }
 
+        /* ==================== ANIMATION KILL SWITCH ==================== */
+        .animation-control {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          z-index: 1000;
+        }
+
+        .animation-toggle-btn {
+          width: 50px;
+          height: 50px;
+          background: rgba(0, 217, 255, 0.2);
+          border: 2px solid rgba(0, 217, 255, 0.5);
+          border-radius: 50%;
+          color: #00d9ff;
+          font-size: 1.2rem;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          backdrop-filter: blur(10px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .animation-toggle-btn:hover {
+          background: rgba(0, 217, 255, 0.3);
+          border-color: rgba(0, 217, 255, 0.8);
+          transform: scale(1.1);
+        }
+
+        /* ==================== ANIMATION DISABLED STATE ==================== */
+        .animations-disabled * {
+          animation: none !important;
+          transition: none !important;
+        }
+
+        .animations-disabled .particle-container {
+          display: none !important;
+        }
+
+        .animations-disabled .floating-elements {
+          display: none !important;
+        }
+
+        .animations-disabled .card-glow,
+        .animations-disabled .btn-glow,
+        .animations-disabled .cta-glow {
+          display: none !important;
+        }
+
+        .animations-disabled .article-card {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+
+        .animations-disabled .section-header {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+
+        .animations-disabled .article-tag {
+          animation: none !important;
+        }
+
+        .animations-disabled .badge-icon,
+        .animations-disabled .title-underline,
+        .animations-disabled .featured-badge {
+          animation: none !important;
+        }
+
+        /* ==================== EXISTING STYLES ==================== */
         .articles-section::before {
           content: '';
           position: absolute;
@@ -486,66 +622,6 @@ const ArticlesAndBlogs = ({
           box-shadow: 0 8px 25px rgba(0, 217, 255, 0.3);
         }
 
-        .stats-section {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-          gap: 1.5rem;
-          margin-bottom: 4rem;
-        }
-
-        .stat-card {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          padding: 1.5rem;
-          background: rgba(255, 255, 255, 0.05);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 16px;
-          transition: all 0.3s ease;
-        }
-
-        .stat-card:hover {
-          background: rgba(255, 255, 255, 0.1);
-          border-color: rgba(0, 217, 255, 0.3);
-          transform: translateY(-5px);
-        }
-
-        .stat-icon {
-          width: 50px;
-          height: 50px;
-          background: linear-gradient(135deg, #00d9ff, #9333ea);
-          border-radius: 14px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          font-size: 1.3rem;
-          flex-shrink: 0;
-        }
-
-        .stat-info {
-          display: flex;
-          flex-direction: column;
-        }
-
-        .stat-number {
-          font-size: 2rem;
-          font-weight: 800;
-          background: linear-gradient(135deg, #00d9ff, #9333ea);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          line-height: 1;
-          margin-bottom: 0.25rem;
-        }
-
-        .stat-label {
-          font-size: 0.85rem;
-          color: rgba(255, 255, 255, 0.7);
-          font-weight: 500;
-        }
-
         .articles-grid {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -600,12 +676,11 @@ const ArticlesAndBlogs = ({
           opacity: 0;
           transition: all 0.8s ease;
           z-index: 1;
-          animation: rotate 25s linear infinite;
+          pointer-events: none;
         }
 
         .article-card:hover .card-glow {
           opacity: 1;
-          animation-play-state: paused;
         }
 
         .article-image-container {
@@ -787,29 +862,6 @@ const ArticlesAndBlogs = ({
           font-size: 0.75rem;
         }
 
-        .article-stats {
-          display: flex;
-          align-items: center;
-          gap: 1.5rem;
-          margin-bottom: 1.5rem;
-        }
-
-        .stat-item {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          color: rgba(255, 255, 255, 0.7);
-          font-size: 0.9rem;
-        }
-
-        .stat-icon.likes {
-          color: #ec4899;
-        }
-
-        .stat-icon.views {
-          color: #06b6d4;
-        }
-
         .read-more-btn {
           display: inline-flex;
           align-items: center;
@@ -848,6 +900,7 @@ const ArticlesAndBlogs = ({
           height: 100%;
           background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
           transition: all 0.6s ease;
+          pointer-events: none;
         }
 
         .read-more-btn:hover .btn-glow {
@@ -921,6 +974,7 @@ const ArticlesAndBlogs = ({
           height: 100%;
           background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
           transition: all 0.6s ease;
+          pointer-events: none;
         }
 
         .medium-cta:hover .cta-glow {
@@ -974,7 +1028,7 @@ const ArticlesAndBlogs = ({
           animation-delay: 8s;
         }
 
-        /* Animations */
+        /* ==================== ANIMATIONS ==================== */
         @keyframes badgePulse {
           0%, 100% { 
             box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
@@ -1024,11 +1078,6 @@ const ArticlesAndBlogs = ({
           }
         }
 
-        @keyframes rotate {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-
         @keyframes tagSlideIn {
           from {
             opacity: 0;
@@ -1059,7 +1108,7 @@ const ArticlesAndBlogs = ({
           }
         }
 
-        /* Responsive Design */
+        /* ==================== RESPONSIVE DESIGN ==================== */
         @media (max-width: 1200px) {
           .articles-grid {
             grid-template-columns: repeat(2, 1fr);
@@ -1068,6 +1117,17 @@ const ArticlesAndBlogs = ({
         }
 
         @media (max-width: 768px) {
+          .animation-control {
+            top: 10px;
+            right: 10px;
+          }
+
+          .animation-toggle-btn {
+            width: 40px;
+            height: 40px;
+            font-size: 1rem;
+          }
+
           .articles-grid {
             grid-template-columns: 1fr;
             gap: 1.5rem;
@@ -1087,25 +1147,6 @@ const ArticlesAndBlogs = ({
             gap: 0.5rem;
           }
 
-          .stats-section {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-          }
-
-          .stat-card {
-            padding: 1rem;
-          }
-
-          .stat-icon {
-            width: 40px;
-            height: 40px;
-            font-size: 1.1rem;
-          }
-
-          .stat-number {
-            font-size: 1.5rem;
-          }
-
           .filter-section {
             gap: 0.5rem;
           }
@@ -1113,10 +1154,6 @@ const ArticlesAndBlogs = ({
           .filter-btn {
             padding: 0.5rem 1rem;
             font-size: 0.9rem;
-          }
-
-          .floating-elements {
-            display: none;
           }
         }
 
@@ -1127,10 +1164,6 @@ const ArticlesAndBlogs = ({
 
           .section-header {
             margin-bottom: 40px;
-          }
-
-          .stats-section {
-            grid-template-columns: 1fr;
           }
 
           .article-content {
@@ -1148,6 +1181,18 @@ const ArticlesAndBlogs = ({
           .medium-cta {
             padding: 0.75rem 1.5rem;
             font-size: 1rem;
+          }
+        }
+
+        /* ==================== REDUCED MOTION SUPPORT ==================== */
+        @media (prefers-reduced-motion: reduce) {
+          .articles-section {
+            animation: none;
+          }
+          
+          .animations-disabled * {
+            animation: none !important;
+            transition: none !important;
           }
         }
       `}</style>
