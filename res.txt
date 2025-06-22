@@ -110,3 +110,34 @@ SOFT SKILLS
 ✓ Teaching  
 
 ---
+
+
+
+
+
+
+
+
+| **Issued Date** | **Course Name** | **From** | **Credential ID** | **Verification Link** | **Expires** |
+|----------------|----------------|----------|------------------|-----------------------|-------------|
+| **Jun 2025** | IBM Data Science Professional Certificate | IBM | `HJCWGQRTXGMY` | [Verify (Credly)](https://www.credly.com/org/ibm) | – |
+| **Jun 2025** | IBM AI Developer Specialization | IBM | `8CVSR0YCQIAW` | [Verify (Credly)](https://www.credly.com/org/ibm) | – |
+| **Jun 2025** | Applied Data Science Capstone | IBM | `7YPR5V2FENN5` | [Verify (Credly)](https://www.credly.com/org/ibm) | – |
+| **Jun 2025** | Building Generative AI-Powered Apps with Python | IBM | `KIVV7W5OXT5P` | [Verify (Credly)](https://www.credly.com/org/ibm) | – |
+| **Jun 2025** | Data Analysis with Python | IBM | `YE9TIF63NW9Y` | [Verify (Credly)](https://www.credly.com/org/ibm) | – |
+| **Jun 2025** | Machine Learning with Python | IBM | `O78W82RN4JAH` | [Verify (Credly)](https://www.credly.com/org/ibm) | – |
+| **Jun 2025** | Python for Data Science and AI | IBM | – | [Verify (Credly)](https://www.credly.com/org/ibm) | – |
+| **May 2025** | React Native | Meta | `PZES6QYN8OHG` | [Verify (Coursera)](https://www.coursera.org/professional-certificates/meta-react-native) | – |
+| **May 2025** | Data Science Orientation | IBM | – | [Verify (Credly)](https://www.credly.com/org/ibm) | – |
+| **Mar 2024** | Google Cybersecurity Specialization | Google | `DWY7Z7NHHR4V` | [Verify (Coursera)](https://www.coursera.org/professional-certificates/google-cybersecurity) | – |
+| **Dec 2023** | Foundations of Cybersecurity | Google | – | [Verify (Coursera)](https://www.coursera.org/learn/foundations-of-cybersecurity) | – |
+| **Sep 2023** | Machine Learning with Python | freeCodeCamp | – | [Verify (freeCodeCamp)](https://freecodecamp.org/certification) | – |
+| **Jul 2023** | ChatGPT for Data Analytics | Maven Analytics | – | [Verify (Maven)](https://www.mavenanalytics.io) | – |
+| **Jul 2023** | Intro to Game AI and Reinforcement Learning | Kaggle | – | [Verify (Kaggle)](https://www.kaggle.com/learn/certification) | – |
+| **May 2023** | Intermediate Machine Learning | Kaggle | – | [Verify (Kaggle)](https://www.kaggle.com/learn/certification) | – |
+| **Apr 2023** | Advanced Google Analytics | Google | – | [Verify (Skillshop)](https://skillshop.exceedlms.com) | **Apr 2026** |
+| **Apr 2023** | Data Analysis with Python | freeCodeCamp | – | [Verify (freeCodeCamp)](https://freecodecamp.org/certification) | – |
+| **Apr 2023** | Intro to Machine Learning | Kaggle | – | [Verify (Kaggle)](https://www.kaggle.com/learn/certification) | – |
+| **Mar 2023** | Master in Data Science | SMEClabs | `98893` | [Verify (SMEClabs)](https://smeclabs.com) | – |
+| **Aug 2022** | Certified White Hat Hacker | Global Tech Council | – | [Verify (GTC)](https://globaltechcouncil.org) | – |
+| **Jun 2021** | Fundamentals of Digital Marketing | Google | `4NT GTE 5RK` | [Verify (Skillshop)](https://learndigital.withgoogle.com) | – |

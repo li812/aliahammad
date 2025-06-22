@@ -15,8 +15,63 @@ import {
   FaCertificate,
   FaMapMarkerAlt,
   FaCalendarAlt,
-  FaStar
+  FaStar,
+  FaReact,
+  FaPython,
+  FaJava,
+  FaJs,
+  FaDocker,
+  FaAws,
+  FaNodeJs,
+  FaMobile,
+  FaServer,
+  FaGitAlt,
+  FaLinux,
+  FaHtml5,
+  FaCss3Alt
 } from 'react-icons/fa';
+import { 
+  SiDjango,
+  SiFlask,
+  SiSpringboot,
+  SiTensorflow,
+  SiPytorch,
+  SiMongodb,
+  SiPostgresql,
+  SiMysql,
+  SiFirebase,
+  SiGooglecloud,
+  SiKubernetes,
+  SiExpress,
+  SiBootstrap,
+  SiTailwindcss,
+  SiTypescript,
+  SiCplusplus,
+  SiR,
+  SiSwift,
+  SiGo,
+  SiScala,
+  SiOpencv,
+  SiGrafana,
+  SiApachehadoop,
+  SiApachespark,
+  SiTableau,
+  SiDigitalocean,
+  SiCloudflare,
+  SiNginx,
+  SiNextdotjs,
+  SiKeras,
+  SiJupyter,
+  SiNumpy,
+  SiPandas,
+  SiScipy,
+  SiScikitlearn,
+  SiSqlite,
+  SiNestjs
+} from 'react-icons/si';
+
+import { TbBrandCSharp } from "react-icons/tb";
+
 import { 
   createAdvancedObserver, 
   createMagneticEffect, 
@@ -92,6 +147,111 @@ const Experience = ({
     }
   }, [cardHoverEffect]);
 
+  // Technology icons mapping
+  const getTechIcon = (tech) => {
+    const iconMap = {
+      // Frameworks & Libraries
+      'Django': <SiDjango style={{ color: '#092E20' }} />,
+      'Flask': <SiFlask style={{ color: '#000000' }} />,
+      'Spring Boot': <SiSpringboot style={{ color: '#6DB33F' }} />,
+      'React': <FaReact style={{ color: '#61DAFB' }} />,
+      'React.js': <FaReact style={{ color: '#61DAFB' }} />,
+      'Next.js': <SiNextdotjs style={{ color: '#000000' }} />,
+      'Express.js': <SiExpress style={{ color: '#000000' }} />,
+      'Bootstrap': <SiBootstrap style={{ color: '#7952B3' }} />,
+      'Tailwind CSS': <SiTailwindcss style={{ color: '#06B6D4' }} />,
+      
+      // Languages
+      'Python': <FaPython style={{ color: '#3776AB' }} />,
+      'JavaScript': <FaJs style={{ color: '#F7DF1E' }} />,
+      'TypeScript': <SiTypescript style={{ color: '#3178C6' }} />,
+      'Java': <FaJava style={{ color: '#007396' }} />,
+      'C++': <SiCplusplus style={{ color: '#00599C' }} />,
+      'C': <TbBrandCSharp style={{ color: '#239120' }} />,
+      'R': <SiR style={{ color: '#276DC3' }} />,
+      'Swift': <SiSwift style={{ color: '#FA7343' }} />,
+      'Go': <SiGo style={{ color: '#00ADD8' }} />,
+      'Scala': <SiScala style={{ color: '#DC322F' }} />,
+      
+      // Machine Learning & AI
+      'AI/ML': <FaBrain style={{ color: '#FF6B6B' }} />,
+      'Machine Learning': <FaBrain style={{ color: '#FF6B6B' }} />,
+      'Deep Learning': <FaBrain style={{ color: '#9B59B6' }} />,
+      'TensorFlow': <SiTensorflow style={{ color: '#FF6F00' }} />,
+      'PyTorch': <SiPytorch style={{ color: '#EE4C2C' }} />,
+      'Keras': <SiKeras style={{ color: '#D00000' }} />,
+      'Scikit-Learn': <SiScikitlearn style={{ color: '#F7931E' }} />,
+      'OpenCV': <SiOpencv style={{ color: '#5C3EE8' }} />,
+      'Computer Vision': <SiOpencv style={{ color: '#5C3EE8' }} />,
+      'NLP': <FaBrain style={{ color: '#8E44AD' }} />,
+      
+      // Data Science & Analytics
+      'Data Analysis': <FaCode style={{ color: '#2ECC71' }} />,
+      'Data Science': <FaCode style={{ color: '#3498DB' }} />,
+      'Statistics': <FaCode style={{ color: '#E74C3C' }} />,
+      'Pandas': <SiPandas style={{ color: '#150458' }} />,
+      'NumPy': <SiNumpy style={{ color: '#013243' }} />,
+      'Jupyter': <SiJupyter style={{ color: '#F37626' }} />,
+      'Tableau': <SiTableau style={{ color: '#E97627' }} />,
+      'Grafana': <SiGrafana style={{ color: '#F46800' }} />,
+      
+      // Big Data
+      'Apache Hadoop': <SiApachehadoop style={{ color: '#66CCFF' }} />,
+      'Apache Spark': <SiApachespark style={{ color: '#E25A1C' }} />,
+      'Big Data': <FaDatabase style={{ color: '#FF9500' }} />,
+      
+      // Databases
+      'MySQL': <SiMysql style={{ color: '#4479A1' }} />,
+      'PostgreSQL': <SiPostgresql style={{ color: '#336791' }} />,
+      'MongoDB': <SiMongodb style={{ color: '#47A248' }} />,
+      'SQLite': <SiSqlite style={{ color: '#003B57' }} />,
+      'Database': <FaDatabase style={{ color: '#336791' }} />,
+      'Database Systems': <FaDatabase style={{ color: '#336791' }} />,
+      'Database Design': <FaDatabase style={{ color: '#336791' }} />,
+      
+      // Cloud & DevOps
+      'AWS': <FaAws style={{ color: '#FF9900' }} />,
+      'Google Cloud': <SiGooglecloud style={{ color: '#4285F4' }} />,
+      'Firebase': <SiFirebase style={{ color: '#FFCA28' }} />,
+      'DigitalOcean': <SiDigitalocean style={{ color: '#0080FF' }} />,
+      'Docker': <FaDocker style={{ color: '#2496ED' }} />,
+      'Kubernetes': <SiKubernetes style={{ color: '#326CE5' }} />,
+      'Cloudflare': <SiCloudflare style={{ color: '#F38020' }} />,
+      'Nginx': <SiNginx style={{ color: '#009639' }} />,
+      'Cloud Computing': <FaCloud style={{ color: '#0080FF' }} />,
+      
+      // Development Tools
+      'Git': <FaGitAlt style={{ color: '#F05032' }} />,
+      'Linux': <FaLinux style={{ color: '#FCC624' }} />,
+      'Node.js': <FaNodeJs style={{ color: '#339933' }} />,
+      'IoT': <FaServer style={{ color: '#00D9FF' }} />,
+      
+      // Web Technologies
+      'HTML5': <FaHtml5 style={{ color: '#E34F26' }} />,
+      'CSS3': <FaCss3Alt style={{ color: '#1572B6' }} />,
+      'Web Development': <FaCode style={{ color: '#61DAFB' }} />,
+      'Web Technologies': <FaCode style={{ color: '#61DAFB' }} />,
+      'Mobile App Development': <FaMobile style={{ color: '#25D366' }} />,
+      
+      // Academic Subjects
+      'Advanced Algorithms': <FaCode style={{ color: '#8E44AD' }} />,
+      'Software Engineering': <FaCode style={{ color: '#3498DB' }} />,
+      'Data Structures': <FaCode style={{ color: '#E74C3C' }} />,
+      'Programming': <FaCode style={{ color: '#2ECC71' }} />,
+      'Mathematics': <FaCode style={{ color: '#F39C12' }} />,
+      'Computer Networks': <FaServer style={{ color: '#9B59B6' }} />,
+      'Operating Systems': <FaLinux style={{ color: '#34495E' }} />,
+      
+      // Package Management
+      'PyPI': <FaPython style={{ color: '#3776AB' }} />,
+      
+      // Default
+      'default': <FaCode style={{ color: '#00D9FF' }} />
+    };
+    
+    return iconMap[tech] || iconMap['default'];
+  };
+
   const workExperience = [
     {
       id: 'work-1',
@@ -103,13 +263,15 @@ const Experience = ({
       type: 'work',
       icon: <FaLaptopCode size={18} />,
       iconColor: '#00d9ff',
-      description: 'Developing cutting-edge AI and IoT solutions using Django framework. Working on machine learning models, data processing pipelines, and full-stack applications.',
+      description: 'Developing cutting-edge AI and IoT solutions using Django framework. Working on machine learning models, data processing pipelines, and full-stack applications. Leading multiple cross-functional teams in developing innovative solutions for marine automation systems and aerial data processing. Implementing advanced computer vision algorithms and natural language processing models for real-time data analysis.',
       technologies: ['Django', 'Flask', 'Python', 'AI/ML', 'React', 'React Native', 'IoT', 'PostgreSQL', 'Docker'],
       achievements: [
-        'Built 5+ production-ready applications',
+        'Built 5+ production-ready AI applications',
         'Built 20+ Academic projects',
         'Optimized system performance by 40%',
-        'Led IoT integration projects'
+        'Led IoT integration projects',
+        'Developed marine automation solutions',
+        'Implemented real-time data processing systems'
       ]
     },
     {
@@ -122,12 +284,15 @@ const Experience = ({
       type: 'work',
       icon: <FaUserTie size={18} />,
       iconColor: '#9333ea',
-      description: 'Providing comprehensive development services including web applications, machine learning solutions, and deep learning projects for diverse clients.',
+      description: 'Providing comprehensive development services including web applications, machine learning solutions, and deep learning projects for diverse clients worldwide. Specializing in end-to-end project delivery from concept to deployment, working with startups and enterprises to build scalable solutions. Expertise in modern web technologies, cloud architecture, and AI-powered applications.',
       technologies: ['TensorFlow', 'AWS', 'MongoDB', 'Node.js', 'Django', 'Flask', 'Python', 'AI/ML', 'React', 'React Native', 'IoT', 'PostgreSQL', 'Docker'],
       achievements: [
         '30+ successful project deliveries',
         'Maintained 98% client satisfaction rate',
-        'Expertise across multiple tech stacks'
+        'Expertise across multiple tech stacks',
+        'Built AI-powered SaaS applications',
+        'Implemented cloud-native architectures',
+        'Created scalable mobile applications'
       ]
     },
     {
@@ -140,12 +305,15 @@ const Experience = ({
       type: 'work',
       icon: <FaChalkboardTeacher size={18} />,
       iconColor: '#64ffda',
-      description: 'Taught programming fundamentals and advanced concepts to students. Developed curriculum and mentored aspiring developers.',
+      description: 'Taught programming fundamentals and advanced concepts to students pursuing computer science education. Developed comprehensive curriculum covering multiple programming languages, database design, and software development methodologies. Mentored aspiring developers and guided them through hands-on projects and industry best practices.',
       technologies: ['Python', 'Java', 'C++', 'Web Development', 'Database Design'],
       achievements: [
-        'Trained 50+ students successfully',
+        'Trained 200+ students successfully',
         'Developed interactive learning modules',
-        'Achieved 95% student pass rate'
+        'Achieved 95% student pass rate',
+        'Created comprehensive course materials',
+        'Established industry partnerships',
+        'Launched coding bootcamp programs'
       ]
     }
   ];
@@ -161,12 +329,15 @@ const Experience = ({
       type: 'education',
       icon: <FaGraduationCap size={18} />,
       iconColor: '#f59e0b',
-      description: 'Pursuing advanced studies in computer applications with focus on software engineering, data structures, algorithms, and emerging technologies.',
+      description: 'Pursuing advanced studies in computer applications with focus on software engineering, data structures, algorithms, and emerging technologies. The program encompasses comprehensive training in modern software development methodologies, advanced database systems, machine learning applications, and mobile app development. Currently working on thesis research in AI-powered systems.',
       technologies: ['Advanced Algorithms', 'Software Engineering', 'Machine Learning', 'Database Systems', 'Web Technologies', 'Mobile App Development'],
       achievements: [
         'Maintaining excellent academic record',
         'Active in research projects',
-        'Leadership in tech communities'
+        'Leadership in tech communities',
+        'Published research papers',
+        'Won multiple coding competitions',
+        'Led student development programs'
       ]
     },
     {
@@ -179,30 +350,15 @@ const Experience = ({
       type: 'education',
       icon: <FaUniversity size={18} />,
       iconColor: '#10b981',
-      description: 'Completed comprehensive undergraduate program covering fundamental and advanced computer science concepts with practical applications.',
+      description: 'Completed comprehensive undergraduate program covering fundamental and advanced computer science concepts with practical applications. The curriculum included extensive training in programming languages, data structures, algorithms, computer networks, operating systems, and modern web technologies. Graduated with distinction and strong foundation in theoretical and practical computer science.',
       technologies: ['Data Structures', 'Programming', 'Mathematics', 'Computer Networks', 'Operating Systems', 'Web Development', 'Cloud Computing'],
       achievements: [
         'Graduated with distinction',
         'Led multiple academic projects',
-        'Published research papers'
-      ]
-    },
-    {
-      id: 'edu-3',
-      title: 'Master in Data Science',
-      subtitle: 'Specialized Data Science Program',
-      company: 'SMEClabs',
-      location: 'Online',
-      period: '2023',
-      type: 'certification',
-      icon: <FaCertificate size={18} />,
-      iconColor: '#ec4899',
-      description: 'Intensive program focused on data science methodologies, machine learning algorithms, and practical implementation of AI solutions.',
-      technologies: ['Machine Learning', 'Data Analysis', 'Python', 'Statistics', 'Deep Learning'],
-      achievements: [
-        'Completed 15+ hands-on projects',
-        'Mastered ML/DL frameworks',
-        'Industry-relevant certifications'
+        'Published research papers',
+        'Won best project awards',
+        'Mentored junior students',
+        'Active in coding clubs'
       ]
     }
   ];
@@ -279,7 +435,6 @@ const Experience = ({
                 <div className="timeline-card">
                   <div className="card-glow"></div>
                   
-                  {/* Compact Header */}
                   <div className="card-header">
                     <div className="role-icon" style={{ '--icon-color': item.iconColor }}>
                       {item.icon}
@@ -306,45 +461,34 @@ const Experience = ({
                     </div>
                   </div>
 
-                  {/* Compact Content */}
                   <div className="card-content">
                     <p className="description">{item.description}</p>
 
-                    {/* Compact Technologies */}
                     <div className="technologies">
+                      <h6 className="section-title-small">Technologies & Skills</h6>
                       <div className="tech-tags">
-                        {item.technologies.slice(0, 15).map((tech, techIndex) => (
+                        {item.technologies.map((tech, techIndex) => (
                           <span 
                             key={techIndex} 
                             className="tech-tag"
                             style={{ '--delay': `${techIndex * 0.1}s` }}
                           >
-                            {tech}
+                            {getTechIcon(tech)}
+                            <span>{tech}</span>
                           </span>
                         ))}
-                        {item.technologies.length > 8 && (
-                          <span className="tech-tag more-tech">
-                            +{item.technologies.length - 8}
-                          </span>
-                        )}
                       </div>
                     </div>
 
-                    {/* Compact Achievements */}
                     <div className="achievements">
+                      <h6 className="section-title-small">Key Achievements</h6>
                       <ul className="achievements-list">
-                        {item.achievements.slice(0, 2).map((achievement, achIndex) => (
+                        {item.achievements.map((achievement, achIndex) => (
                           <li key={achIndex} className="achievement-item">
                             <FaStar className="achievement-icon" />
                             {achievement}
                           </li>
                         ))}
-                        {item.achievements.length > 2 && (
-                          <li className="achievement-item more-achievements">
-                            <FaStar className="achievement-icon" />
-                            +{item.achievements.length - 2} more achievements
-                          </li>
-                        )}
                       </ul>
                     </div>
                   </div>
@@ -360,7 +504,7 @@ const Experience = ({
             <div className="divider-icon education-icon">
               <FaGraduationCap />
             </div>
-            <h3 className="divider-title">Education & Certifications</h3>
+            <h3 className="divider-title">Academics</h3>
             <p className="divider-subtitle">Academic foundation and continuous learning journey</p>
           </div>
 
@@ -380,7 +524,6 @@ const Experience = ({
                 <div className="timeline-card">
                   <div className="card-glow"></div>
                   
-                  {/* Compact Header */}
                   <div className="card-header">
                     <div className="role-icon" style={{ '--icon-color': item.iconColor }}>
                       {item.icon}
@@ -407,45 +550,34 @@ const Experience = ({
                     </div>
                   </div>
 
-                  {/* Compact Content */}
                   <div className="card-content">
                     <p className="description">{item.description}</p>
 
-                    {/* Compact Technologies */}
                     <div className="technologies">
+                      <h6 className="section-title-small">Core Subjects & Skills</h6>
                       <div className="tech-tags">
-                        {item.technologies.slice(0, 4).map((tech, techIndex) => (
+                        {item.technologies.map((tech, techIndex) => (
                           <span 
                             key={techIndex} 
                             className="tech-tag"
                             style={{ '--delay': `${techIndex * 0.1}s` }}
                           >
-                            {tech}
+                            {getTechIcon(tech)}
+                            <span>{tech}</span>
                           </span>
                         ))}
-                        {item.technologies.length > 8 && (
-                          <span className="tech-tag more-tech">
-                            +{item.technologies.length - 8}
-                          </span>
-                        )}
                       </div>
                     </div>
 
-                    {/* Compact Achievements */}
                     <div className="achievements">
+                      <h6 className="section-title-small">Highlights</h6>
                       <ul className="achievements-list">
-                        {item.achievements.slice(0, 2).map((achievement, achIndex) => (
+                        {item.achievements.map((achievement, achIndex) => (
                           <li key={achIndex} className="achievement-item">
                             <FaStar className="achievement-icon" />
                             {achievement}
                           </li>
                         ))}
-                        {item.achievements.length > 2 && (
-                          <li className="achievement-item more-achievements">
-                            <FaStar className="achievement-icon" />
-                            +{item.achievements.length - 2} more highlights
-                          </li>
-                        )}
                       </ul>
                     </div>
                   </div>
@@ -724,7 +856,6 @@ const Experience = ({
           box-shadow: 
             0 10px 25px rgba(0, 0, 0, 0.3),
             inset 0 1px 0 rgba(255, 255, 255, 0.1);
-          max-height: 440px;
         }
 
         .timeline-card:hover {
@@ -754,7 +885,7 @@ const Experience = ({
         }
 
         .card-header {
-          padding: 1.25rem;
+          padding: 1.5rem;
           border-bottom: 1px solid rgba(255, 255, 255, 0.1);
           display: flex;
           align-items: flex-start;
@@ -764,16 +895,16 @@ const Experience = ({
         }
 
         .role-icon {
-          width: 45px;
-          height: 45px;
+          width: 50px;
+          height: 50px;
           background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
           border: 2px solid rgba(255, 255, 255, 0.2);
-          border-radius: 12px;
+          border-radius: 14px;
           display: flex;
           align-items: center;
           justify-content: center;
           color: var(--icon-color);
-          font-size: 1.1rem;
+          font-size: 1.2rem;
           flex-shrink: 0;
           transition: all 0.3s ease;
         }
@@ -790,7 +921,7 @@ const Experience = ({
         }
 
         .role-title {
-          font-size: 1.1rem;
+          font-size: 1.3rem;
           font-weight: 700;
           color: white;
           margin: 0 0 0.25rem 0;
@@ -798,7 +929,7 @@ const Experience = ({
         }
 
         .role-subtitle {
-          font-size: 0.85rem;
+          font-size: 0.9rem;
           color: rgba(255, 255, 255, 0.7);
           margin: 0 0 0.75rem 0;
           font-weight: 500;
@@ -809,40 +940,40 @@ const Experience = ({
         }
 
         .company-name {
-          font-size: 1rem;
+          font-size: 1.1rem;
           font-weight: 600;
           color: #00d9ff;
           display: block;
-          margin-bottom: 0.25rem;
+          margin-bottom: 0.5rem;
         }
 
         .meta-info {
           display: flex;
-          gap: 1rem;
+          gap: 1.5rem;
           flex-wrap: wrap;
         }
 
         .location, .period {
           display: flex;
           align-items: center;
-          gap: 0.25rem;
-          font-size: 0.75rem;
+          gap: 0.4rem;
+          font-size: 0.8rem;
           color: rgba(255, 255, 255, 0.6);
           font-weight: 500;
         }
 
         .location svg, .period svg {
-          font-size: 0.7rem;
+          font-size: 0.75rem;
           color: #64ffda;
         }
 
         .role-badge {
-          padding: 0.35rem 0.75rem;
+          padding: 0.4rem 0.8rem;
           background: rgba(255, 255, 255, 0.1);
           border: 1px solid var(--badge-color);
-          border-radius: 15px;
+          border-radius: 16px;
           color: var(--badge-color);
-          font-size: 0.7rem;
+          font-size: 0.75rem;
           font-weight: 600;
           text-transform: capitalize;
           backdrop-filter: blur(10px);
@@ -851,39 +982,59 @@ const Experience = ({
         }
 
         .card-content {
-          padding: 1.25rem;
+          padding: 1.5rem;
           position: relative;
           z-index: 2;
         }
 
         .description {
-          font-size: 0.85rem;
-          line-height: 1.5;
-          color: rgba(255, 255, 255, 0.8);
-          margin-bottom: 1rem;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
+          font-size: 0.9rem;
+          line-height: 1.6;
+          color: rgba(255, 255, 255, 0.85);
+          margin-bottom: 1.5rem;
+          text-align: justify;
         }
 
-        .technologies {
-          margin-bottom: 1rem;
+        .technologies, .achievements {
+          margin-bottom: 1.5rem;
+        }
+
+        .section-title-small {
+          font-size: 0.85rem;
+          font-weight: 600;
+          color: rgba(255, 255, 255, 0.9);
+          margin: 0 0 1rem 0;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .section-title-small::before {
+          content: '';
+          width: 20px;
+          height: 2px;
+          background: linear-gradient(90deg, #00d9ff, #9333ea);
+          border-radius: 1px;
         }
 
         .tech-tags {
           display: flex;
           flex-wrap: wrap;
-          gap: 0.4rem;
+          gap: 0.5rem;
         }
 
         .tech-tag {
-          padding: 0.25rem 0.6rem;
+          display: flex;
+          align-items: center;
+          gap: 0.4rem;
+          padding: 0.4rem 0.8rem;
           background: rgba(255, 255, 255, 0.08);
           color: rgba(255, 255, 255, 0.9);
           border: 1px solid rgba(255, 255, 255, 0.15);
-          border-radius: 12px;
-          font-size: 0.7rem;
+          border-radius: 14px;
+          font-size: 0.75rem;
           font-weight: 500;
           transition: all 0.3s ease;
           cursor: pointer;
@@ -900,45 +1051,35 @@ const Experience = ({
           border-color: transparent;
         }
 
-        .tech-tag.more-tech {
-          background: rgba(0, 217, 255, 0.1);
-          color: #00d9ff;
-          border-color: rgba(0, 217, 255, 0.3);
-        }
-
-        .achievements {
-          margin-top: 1rem;
+        .tech-tag svg {
+          font-size: 0.9rem;
+          flex-shrink: 0;
         }
 
         .achievements-list {
           list-style: none;
           padding: 0;
           margin: 0;
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 0.5rem;
         }
 
         .achievement-item {
           display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          padding: 0.25rem 0;
-          font-size: 0.75rem;
-          color: rgba(255, 255, 255, 0.8);
-          line-height: 1.3;
+          align-items: flex-start;
+          gap: 0.6rem;
+          padding: 0.4rem 0;
+          font-size: 0.8rem;
+          color: rgba(255, 255, 255, 0.85);
+          line-height: 1.4;
         }
 
         .achievement-icon {
           color: #f59e0b;
-          font-size: 0.6rem;
+          font-size: 0.7rem;
           flex-shrink: 0;
-        }
-
-        .achievement-item.more-achievements {
-          color: rgba(0, 217, 255, 0.8);
-          font-style: italic;
-        }
-
-        .achievement-item.more-achievements .achievement-icon {
-          color: #00d9ff;
+          margin-top: 0.1rem;
         }
 
         .floating-elements {
@@ -1114,32 +1255,32 @@ const Experience = ({
 
           .card-header {
             flex-direction: column;
-            gap: 0.75rem;
-            padding: 1rem;
+            gap: 1rem;
+            padding: 1.25rem;
           }
 
           .role-icon {
             align-self: center;
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
           }
 
           .meta-info {
             flex-direction: column;
-            gap: 0.25rem;
+            gap: 0.5rem;
           }
 
           .tech-tags {
-            gap: 0.3rem;
+            gap: 0.4rem;
           }
 
           .tech-tag {
-            padding: 0.2rem 0.5rem;
-            font-size: 0.65rem;
+            padding: 0.3rem 0.6rem;
+            font-size: 0.7rem;
           }
 
-          .timeline-card {
-            max-height: none;
+          .achievements-list {
+            grid-template-columns: 1fr;
           }
 
           .floating-elements {
@@ -1161,7 +1302,7 @@ const Experience = ({
           }
 
           .card-content {
-            padding: 1rem;
+            padding: 1.25rem;
           }
 
           .divider-title {
@@ -1169,11 +1310,11 @@ const Experience = ({
           }
 
           .role-title {
-            font-size: 1rem;
+            font-size: 1.1rem;
           }
 
           .description {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
           }
         }
       `}</style>

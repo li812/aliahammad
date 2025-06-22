@@ -5,6 +5,7 @@ import About from './components/HomeComponents/About'
 import TechnicalExpertise from './components/HomeComponents/TechnicalExpertise'
 import Projects from './components/HomeComponents/Projects'
 import Experience from './components/HomeComponents/Experience'
+import CertificationsAndLicenses from './components/HomeComponents/CertificationsAndLicenses'
 import Medium from './components/HomeComponents/Medium'
 import Contact from './components/HomeComponents/Contact'
 import Footer from './components/HomeComponents/Footer'
@@ -22,6 +23,7 @@ const Home = () => {
       <TechnicalExpertise />
       <Projects />
       <Experience />
+      <CertificationsAndLicenses />
       <Medium />
       <Contact />
       <Footer />

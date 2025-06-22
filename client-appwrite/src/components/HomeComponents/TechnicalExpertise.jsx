@@ -1,22 +1,22 @@
 import React, { useEffect, useRef } from 'react';
-import { 
-  FaCode, 
-  FaReact, 
-  FaServer, 
-  FaDatabase, 
-  FaBrain, 
-  FaEye, 
-  FaChartBar, 
-  FaHdd, 
-  FaRocket, 
+import {
+  FaCode,
+  FaReact,
+  FaServer,
+  FaDatabase,
+  FaBrain,
+  FaEye,
+  FaChartBar,
+  FaHdd,
+  FaRocket,
   FaCloud,
   FaPython,
   FaDocker
 } from 'react-icons/fa';
 import { SiSpringboot } from 'react-icons/si';
-import { 
-  createAdvancedObserver, 
-  createMagneticEffect, 
+import {
+  createAdvancedObserver,
+  createMagneticEffect,
   createParticleSystem
 } from '../../utils/animations';
 
