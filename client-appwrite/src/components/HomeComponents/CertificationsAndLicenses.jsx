@@ -56,8 +56,8 @@ const CertificationsAndLicenses = ({
   // Get provider icon with proper fallbacks and course folder images
   const getProviderIcon = (provider) => {
     const iconMap = {
-      'IBM': <img src="/src/assets/Course/IBM.png" alt="IBM" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />,
-      'Google': <img src="/src/assets/Course/google.png" alt="Google" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />,
+      'IBM': <img src="images/Course/IBM.png" alt="IBM" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />,
+      'Google': <img src="images/Course/google.png" alt="Google" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />,
       'Meta': <SiMeta style={{ color: '#0668E1', fontSize: '40px' }} />,
       'Kaggle': <SiKaggle style={{ color: '#20BEFF', fontSize: '40px' }} />,
       'Coursera': <SiCoursera style={{ color: '#0056D3', fontSize: '40px' }} />,
