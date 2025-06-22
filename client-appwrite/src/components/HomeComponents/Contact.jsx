@@ -1,3 +1,5 @@
+/* filepath: /Users/li/GitHub/aliahammad/client-appwrite/src/components/HomeComponents/Contact.jsx */
+
 import React, { useEffect, useRef, useState } from 'react';
 import {
   FaEnvelope,
@@ -14,13 +16,16 @@ import {
   FaBrain,
   FaRocket,
   FaDatabase,
-  FaCloud
+  FaCloud,
+  FaExclamationTriangle,
+  FaCheckCircle
 } from 'react-icons/fa';
 import {
   createAdvancedObserver,
   createMagneticEffect,
   createParticleSystem
 } from '../../utils/animations';
+import { ContactController } from '../../controllers/contactController'; // Import the controller
 
 const Contact = ({
   // Animation control props
@@ -53,6 +58,7 @@ const Contact = ({
   });
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState('');
+  const [validationErrors, setValidationErrors] = useState({});
 
   useEffect(() => {
     // Initialize particle system
@@ -110,28 +116,69 @@ const Contact = ({
       ...prev,
       [name]: value
     }));
+
+    // Clear validation error for this field when user starts typing
+    if (validationErrors[name]) {
+      setValidationErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
-    // Simulate form submission (no backend connection for now)
-    setTimeout(() => {
-      setMessage('Message sent successfully! I\'ll get back to you soon.');
-      setMessageType('success');
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        subject: '',
-        message: ''
-      });
-      setLoading(false);
+    // Clear previous messages and errors
+    setMessage('');
+    setValidationErrors({});
 
-      // Clear message after 5 seconds
-      setTimeout(() => setMessage(''), 5000);
-    }, 2000);
+    // Client-side validation first
+    const validation = ContactController.validateContactForm(formData);
+
+    if (!validation.isValid) {
+      setValidationErrors(validation.errors);
+      setMessage('Please fix the errors below and try again.');
+      setMessageType('error');
+      return;
+    }
+
+    // Submit to API
+    const response = await ContactController.handleContactSubmission(formData, {
+      onLoading: setLoading,
+      onSuccess: (response) => {
+        console.log('Contact form submitted successfully:', response);
+        setMessage(response.message || 'Message sent successfully! I\'ll get back to you soon.');
+        setMessageType('success');
+
+        // Reset form
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          subject: '',
+          message: ''
+        });
+
+        // Clear message after 7 seconds
+        setTimeout(() => setMessage(''), 7000);
+      },
+      onError: (error) => {
+        console.error('Contact form submission error:', error);
+
+        if (error.validationErrors) {
+          setValidationErrors(error.validationErrors);
+          setMessage('Please fix the validation errors and try again.');
+          setMessageType('error');
+        } else {
+          setMessage(error.error || 'Failed to send message. Please try again.');
+          setMessageType('error');
+        }
+
+        // Clear error message after 7 seconds
+        setTimeout(() => setMessage(''), 7000);
+      }
+    });
   };
 
   // Get hover transform values based on intensity
@@ -306,7 +353,7 @@ const Contact = ({
             {message && (
               <div className={`message-alert ${messageType}`}>
                 <div className="message-icon">
-                  {messageType === 'success' ? <FaPaperPlane /> : <FaEnvelope />}
+                  {messageType === 'success' ? <FaCheckCircle /> : <FaExclamationTriangle />}
                 </div>
                 <span>{message}</span>
               </div>
@@ -322,12 +369,15 @@ const Contact = ({
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleInputChange}
-                    className="form-input"
+                    className={`form-input ${validationErrors.firstName ? 'error' : ''}`}
                     placeholder="Enter your first name"
                     required
                     disabled={loading}
                   />
                   <div className="input-focus-line"></div>
+                  {validationErrors.firstName && (
+                    <div className="field-error">{validationErrors.firstName}</div>
+                  )}
                 </div>
 
                 <div className="form-group">
@@ -338,12 +388,15 @@ const Contact = ({
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleInputChange}
-                    className="form-input"
+                    className={`form-input ${validationErrors.lastName ? 'error' : ''}`}
                     placeholder="Enter your last name"
                     required
                     disabled={loading}
                   />
                   <div className="input-focus-line"></div>
+                  {validationErrors.lastName && (
+                    <div className="field-error">{validationErrors.lastName}</div>
+                  )}
                 </div>
               </div>
 
@@ -355,12 +408,15 @@ const Contact = ({
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="form-input"
+                  className={`form-input ${validationErrors.email ? 'error' : ''}`}
                   placeholder="Enter your email address"
                   required
                   disabled={loading}
                 />
                 <div className="input-focus-line"></div>
+                {validationErrors.email && (
+                  <div className="field-error">{validationErrors.email}</div>
+                )}
               </div>
 
               <div className="form-group">
@@ -371,12 +427,15 @@ const Contact = ({
                   name="subject"
                   value={formData.subject}
                   onChange={handleInputChange}
-                  className="form-input"
+                  className={`form-input ${validationErrors.subject ? 'error' : ''}`}
                   placeholder="What's this about?"
                   required
                   disabled={loading}
                 />
                 <div className="input-focus-line"></div>
+                {validationErrors.subject && (
+                  <div className="field-error">{validationErrors.subject}</div>
+                )}
               </div>
 
               <div className="form-group">
@@ -386,13 +445,16 @@ const Contact = ({
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
-                  className="form-textarea"
+                  className={`form-textarea ${validationErrors.message ? 'error' : ''}`}
                   placeholder="Tell me about your project or inquiry..."
                   rows="6"
                   required
                   disabled={loading}
                 ></textarea>
                 <div className="input-focus-line"></div>
+                {validationErrors.message && (
+                  <div className="field-error">{validationErrors.message}</div>
+                )}
               </div>
 
               <button
@@ -919,6 +981,18 @@ const Contact = ({
           box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
         }
 
+        .form-input.error,
+        .form-textarea.error {
+          border-color: rgba(239, 68, 68, 0.5);
+          background: rgba(239, 68, 68, 0.05);
+        }
+
+        .form-input.error:focus,
+        .form-textarea.error:focus {
+          border-color: rgba(239, 68, 68, 0.7);
+          box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+        }
+
         .form-input::placeholder,
         .form-textarea::placeholder {
           color: rgba(255, 255, 255, 0.4);
@@ -945,6 +1019,20 @@ const Contact = ({
           min-height: 120px;
         }
 
+        .field-error {
+          color: #ef4444;
+          font-size: 0.85rem;
+          margin-top: 0.5rem;
+          display: flex;
+          align-items: center;
+          gap: 0.3rem;
+        }
+
+        .field-error::before {
+          content: '⚠️';
+          font-size: 0.75rem;
+        }
+
         .submit-button {
           display: flex;
           align-items: center;
@@ -965,7 +1053,7 @@ const Contact = ({
           letter-spacing: 0.5px;
         }
 
-        .submit-button:hover {
+        .submit-button:hover:not(:disabled) {
           transform: translateY(-3px);
           box-shadow: 0 15px 35px rgba(0, 217, 255, 0.4);
         }
@@ -989,7 +1077,7 @@ const Contact = ({
           transition: transform 0.3s ease;
         }
 
-        .submit-button:hover .submit-icon {
+        .submit-button:hover:not(:disabled) .submit-icon {
           transform: translateX(5px);
         }
 
@@ -1003,7 +1091,7 @@ const Contact = ({
           transition: all 0.6s ease;
         }
 
-        .submit-button:hover .button-glow {
+        .submit-button:hover:not(:disabled) .button-glow {
           left: 100%;
         }
 
@@ -1311,8 +1399,6 @@ const Contact = ({
           .floating-elements {
             display: none;
           }
-
-
 
           .contact-info-card,
           .contact-form-card {
