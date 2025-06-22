@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
-import { 
-  FaGithub, 
-  FaExternalLinkAlt, 
-  FaCode, 
+import {
+  FaGithub,
+  FaExternalLinkAlt,
+  FaCode,
   FaRocket,
   FaBrain,
   FaDatabase,
@@ -19,23 +19,23 @@ import {
   FaPython,
   FaLowVision
 } from 'react-icons/fa';
-import { 
+import {
   SiArduino,
   SiSpringboot,
   SiDjango,
   SiGooglecloud,
   SiMysql
- } from "react-icons/si";
+} from "react-icons/si";
 import { LuBrainCircuit } from "react-icons/lu";
 import { CgWebsite } from "react-icons/cg";
-import { 
-  createAdvancedObserver, 
-  createMagneticEffect, 
+import {
+  createAdvancedObserver,
+  createMagneticEffect,
   createParticleSystem,
-  createEntranceAnimation 
+  createEntranceAnimation
 } from '../../utils/animations';
 
-const Projects = ({ 
+const Projects = ({
   showParticles = true,
   animationDuration = 1000,
   staggerDelay = 200,
@@ -203,7 +203,7 @@ const Projects = ({
       {showParticles && (
         <div className="particle-container" ref={particleContainerRef}></div>
       )}
-      
+
       <div className="modern-container">
         <div className="section-header" ref={headerRef}>
           <div className="header-badge">
@@ -219,13 +219,13 @@ const Projects = ({
 
         <div className="projects-grid">
           {projects.map((project, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className="project-card"
               ref={el => cardRefs.current[index] = el}
             >
               <div className="card-glow"></div>
-              
+
               {/* Project Image */}
               <div className="project-image-container">
                 <div className="project-image">
@@ -242,9 +242,9 @@ const Projects = ({
                 <div className="project-header">
                   <h3 className="project-title">{project.title}</h3>
                 </div>
-                
+
                 <p className="project-description">{project.description}</p>
-                
+
                 {/* Technology Stack */}
                 <div className="tech-stack">
                   <h4 className="tech-title">
@@ -253,12 +253,12 @@ const Projects = ({
                   </h4>
                   <div className="tech-tags">
                     {project.tech.slice(0, 6).map((tech, techIndex) => (
-                      <div 
-                        key={techIndex} 
+                      <div
+                        key={techIndex}
                         className="tech-tag"
-                        style={{ 
+                        style={{
                           '--delay': `${techIndex * 0.1}s`,
-                          '--index': techIndex 
+                          '--index': techIndex
                         }}
                       >
                         {getTechIcon(tech)}
@@ -275,20 +275,20 @@ const Projects = ({
 
                 {/* Project Actions */}
                 <div className="project-actions">
-                  <a 
-                    href={project.link} 
+                  <a
+                    href={project.link}
                     className="project-cta primary"
-                    target="_blank" 
+                    target="_blank"
                     rel="noopener noreferrer"
                   >
                     <span>View Project</span>
                     <FaExternalLinkAlt className="cta-icon" />
                   </a>
                   {project.link.includes('github.com') && (
-                    <a 
-                      href={project.link} 
+                    <a
+                      href={project.link}
                       className="project-cta secondary"
-                      target="_blank" 
+                      target="_blank"
                       rel="noopener noreferrer"
                     >
                       <FaGithub className="github-icon" />
@@ -301,16 +301,16 @@ const Projects = ({
         </div>
 
         {/* Section Footer */}
-        <div className="section-footer">
-          <div className="footer-content">
+        <div className="section-footer-pro">
+          <div className="footer-content-pro">
             <h3 className="footer-title">Explore More Projects</h3>
             <p className="footer-description">
               Discover additional projects and contributions on my GitHub profile
             </p>
-            <a 
-              href="https://github.com/li812" 
+            <a
+              href="https://github.com/li812"
               className="github-cta"
-              target="_blank" 
+              target="_blank"
               rel="noopener noreferrer"
             >
               <FaGithub className="github-logo" />
@@ -708,14 +708,14 @@ const Projects = ({
           transform: translateX(3px);
         }
 
-        .section-footer {
+        .section-footer-pro {
           text-align: center;
-          margin-top: 6rem;
+          margin-top: 2rem;
           position: relative;
           z-index: 2;
         }
 
-        .footer-content {
+        .footer-content-pro {
           max-width: 600px;
           margin: 0 auto;
         }
@@ -971,7 +971,7 @@ const Projects = ({
             font-size: 0.85rem;
           }
 
-          .section-footer {
+          .section-footer-pro {
             margin-top: 4rem;
           }
 
