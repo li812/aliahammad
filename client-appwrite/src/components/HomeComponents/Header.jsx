@@ -86,7 +86,7 @@ const Header = () => {
         <div className="hero-content">
           <div className="profile-section">
             <div className="profile-image-large hero-animate">
-              <div className="image-container">
+              <div className="image-container-hd">
                 <img src="images/user-3.jpg" alt="Ali Ahammad" />
                 <div className="profile-rings">
                   <div className="ring ring-1"></div>
@@ -277,19 +277,21 @@ const Header = () => {
           transform: translateY(-26px); /* Raise the image by 26px */
         }
 
-        .image-container {
+        .image-container-hd {
           position: relative;
           width: 320px;
           height: 320px;
           cursor: pointer;
           transition: all 0.4s ease;
+          top: -3rem;
+left: -3rem;
         }
 
-        .image-container:hover {
+        .image-container-hd:hover {
           transform: scale(1.05);
         }
 
-        .image-container img {
+        .image-container-hd img {
           width: 100%;
           height: 100%;
           border-radius: 50%;
@@ -300,7 +302,7 @@ const Header = () => {
           transition: all 0.4s ease;
         }
 
-        .image-container:hover img {
+        .image-container-hd:hover img {
           border-color: rgba(0, 217, 255, 0.6);
           box-shadow: 0 0 40px rgba(0, 217, 255, 0.4);
         }
@@ -322,7 +324,7 @@ const Header = () => {
           transition: all 0.4s ease;
         }
 
-        .image-container:hover .ring {
+        .image-container-hd:hover .ring {
           animation-play-state: paused;
         }
 
@@ -360,7 +362,7 @@ const Header = () => {
           transition: all 0.4s ease;
         }
 
-        .image-container:hover .glow-effect {
+        .image-container-hd:hover .glow-effect {
           background: radial-gradient(circle, rgba(0, 217, 255, 0.4) 0%, transparent 70%);
           transform: translate(-50%, -50%) scale(1.1);
         }
@@ -383,7 +385,7 @@ const Header = () => {
           backdrop-filter: blur(10px);
         }
 
-        .image-container:hover .image-overlay {
+        .image-container-hd:hover .image-overlay {
           opacity: 1;
         }
 
@@ -393,7 +395,7 @@ const Header = () => {
           transition: all 0.4s ease;
         }
 
-        .image-container:hover .overlay-content {
+        .image-container-hd:hover .overlay-content {
           transform: translateY(0);
         }
 
@@ -684,7 +686,7 @@ const Header = () => {
             gap: 3rem;
           }
 
-          .image-container {
+          .image-container-hd {
             width: 300px;
             height: 300px;
           }

@@ -618,6 +618,7 @@ const TechnicalExpertise = () => {
           backdrop-filter: blur(20px);
           border: 1px solid rgba(255, 255, 255, 0.1);
           max-width: 400px;
+          min-width: 400px;
           border-radius: 28px;
           overflow: hidden;
           padding: 1.5rem;

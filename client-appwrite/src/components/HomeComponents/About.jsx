@@ -64,7 +64,7 @@ const About = () => {
           >
             <div className="card-header">
               <div className="profile-section">
-                <div className="profile-image">
+                <div className="profile-image-ab">
                   <img src="images/user-3.jpg" alt="Ali Ahammad" />
                   <div className="status-dot"></div>
                 </div>
@@ -318,7 +318,7 @@ const About = () => {
           gap: 1rem;
         }
 
-        .profile-image {
+        .profile-image-ab {
           position: relative;
           width: 80px;
           height: 80px;
@@ -327,7 +327,7 @@ const About = () => {
           border: 3px solid rgba(0, 217, 255, 0.3);
         }
 
-        .profile-image img {
+        .profile-image-ab img {
           width: 100%;
           height: 100%;
           object-fit: cover;
