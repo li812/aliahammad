@@ -1,5 +1,5 @@
 import { databases, appwriteConfig } from '../config/appwrite';
-import { ID } from 'appwrite';
+import { ID, Query } from 'appwrite';
 import { ContactModel } from '../models/contacts';
 
 export class ContactService {
@@ -59,14 +59,15 @@ export class ContactService {
     try {
       const { limit = 25, offset = 0, status = null } = options;
       
-      const queries = [`limit(${limit})`, `offset(${offset})`];
+      const queries = [
+        Query.limit(limit),
+        Query.offset(offset),
+        Query.orderDesc('createdAt')
+      ];
       
-      if (status) {
-        queries.push(`equal("status", "${status}")`);
+      if (status && status !== 'all') {
+        queries.push(Query.equal('status', status));
       }
-      
-      // Add ordering by creation date (newest first)
-      queries.push('orderDesc("createdAt")');
       
       const response = await databases.listDocuments(
         appwriteConfig.databaseId,
@@ -168,32 +169,26 @@ export class ContactService {
    */
   static async getContactStats() {
     try {
-      const [newContacts, readContacts, repliedContacts] = await Promise.all([
-        databases.listDocuments(
-          appwriteConfig.databaseId,
-          appwriteConfig.contactsCollectionId,
-          ['equal("status", "new")']
-        ),
-        databases.listDocuments(
-          appwriteConfig.databaseId,
-          appwriteConfig.contactsCollectionId,
-          ['equal("status", "read")']
-        ),
-        databases.listDocuments(
-          appwriteConfig.databaseId,
-          appwriteConfig.contactsCollectionId,
-          ['equal("status", "replied")']
-        )
-      ]);
+      // Get all contacts first
+      const allContactsResponse = await databases.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.contactsCollectionId,
+        [Query.limit(1000)] // Increase limit to get all contacts for stats
+      );
+
+      const allContacts = allContactsResponse.documents;
+      
+      // Calculate stats from the retrieved data
+      const stats = {
+        total: allContacts.length,
+        new: allContacts.filter(contact => contact.status === 'new').length,
+        read: allContacts.filter(contact => contact.status === 'read').length,
+        replied: allContacts.filter(contact => contact.status === 'replied').length
+      };
       
       return {
         success: true,
-        data: {
-          total: newContacts.total + readContacts.total + repliedContacts.total,
-          new: newContacts.total,
-          read: readContacts.total,
-          replied: repliedContacts.total
-        }
+        data: stats
       };
       
     } catch (error) {
@@ -205,6 +200,26 @@ export class ContactService {
         details: error.message
       };
     }
+  }
+  
+  /**
+   * Transform database document to frontend format
+   * @param {Object} dbData - Database document
+   * @returns {Object} - Transformed contact data
+   */
+  static transformFromDatabase(dbData) {
+    return {
+      id: dbData.$id,
+      firstName: dbData.firstName,
+      lastName: dbData.lastName,
+      fullName: `${dbData.firstName} ${dbData.lastName}`,
+      email: dbData.email,
+      subject: dbData.subject,
+      message: dbData.message,
+      status: dbData.status || 'new',
+      createdAt: dbData.createdAt || dbData.$createdAt,
+      ipAddress: dbData.ipAddress || 'Unknown'
+    };
   }
 }
 

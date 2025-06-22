@@ -78,7 +78,7 @@ const Footer = () => {
                 <FaMapMarkerAlt className="location-icon" />
                 Kerala, India
               </span>
-              <FaHeart className="heart-icon" />
+              
             </div>
           </div>
 

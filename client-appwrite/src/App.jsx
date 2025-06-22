@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { AuthProvider } from './context/AuthContext'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { AuthProvider, useAuth } from './context/AuthContext'
 import './App.css'
 
 // Lazy load all major components for code splitting
@@ -14,7 +14,7 @@ const ArticlesAndBlogs = lazy(() => import('./components/HomeComponents/Articles
 const Contact = lazy(() => import('./components/HomeComponents/Contact'));
 const Footer = lazy(() => import('./components/HomeComponents/Footer'));
 const CLILogin = lazy(() => import('./pages/CLILogin'));
-const Dashboard = lazy(() => import('./pages/dashboard/base'));
+const Base = lazy(() => import('./pages/dashboard/base'));
 
 // Loading component with portfolio theme
 const LoadingSpinner = ({ minimal = false }) => (
@@ -45,6 +45,42 @@ const LoadingSpinner = ({ minimal = false }) => (
     </div>
   </div>
 );
+
+// Protected Route Component
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated, loading } = useAuth();
+
+  // Show loading spinner while checking authentication
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
+  // Redirect to console login if not authenticated
+  if (!isAuthenticated) {
+    return <Navigate to="/console" replace />;
+  }
+
+  // Render the protected component if authenticated
+  return children;
+};
+
+// Public Route Component (redirect to dashboard if already authenticated)
+const PublicRoute = ({ children }) => {
+  const { isAuthenticated, loading } = useAuth();
+
+  // Show loading spinner while checking authentication
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
+  // Redirect to dashboard if already authenticated
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  // Render the public component if not authenticated
+  return children;
+};
 
 // Home component with lazy loading
 const Home = () => {
@@ -81,18 +117,47 @@ const Home = () => {
   );
 };
 
+// App Routes Component (needs to be inside AuthProvider to access useAuth)
+const AppRoutes = () => {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<Home />} />
+        
+        {/* Login Route - redirect to dashboard if already authenticated */}
+        <Route 
+          path="/console" 
+          element={
+            <PublicRoute>
+              <CLILogin />
+            </PublicRoute>
+          } 
+        />
+        
+        {/* Protected Routes */}
+        <Route 
+          path="/dashboard" 
+          element={
+            <ProtectedRoute>
+              <Base />
+            </ProtectedRoute>
+          } 
+        />
+        
+        {/* Catch all route - redirect to home */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Suspense>
+  );
+};
+
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <div className="App">
-          <Suspense fallback={<LoadingSpinner />}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/console" element={<CLILogin />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-            </Routes>
-          </Suspense>
+          <AppRoutes />
         </div>
       </BrowserRouter>
       
