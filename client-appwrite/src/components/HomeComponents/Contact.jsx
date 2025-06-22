@@ -277,24 +277,19 @@ const Contact = ({
 
             <div className="social-section">
               <h4 className="social-title">Follow Me</h4>
-              <div className="social-links">
-                {socialLinks.map((social, index) => (
-                  <a
-                    key={index}
-                    href={social.link}
-                    className="social-link"
-                    style={{
-                      '--social-color': social.color,
-                      '--delay': `${index * 0.1}s`
-                    }}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title={social.label}
-                  >
-                    {social.icon}
-                    <span className="social-tooltip">{social.label}</span>
-                  </a>
-                ))}
+              <div className="social-links-con hero-animate">
+                <a href="https://www.linkedin.com/in/ali-ahammad-li0812" className="social-link linkedin" title="LinkedIn">
+                  <FaLinkedin />
+                  <span className="social-tooltip">LinkedIn</span>
+                </a>
+                <a href="https://github.com/li812" className="social-link github" title="GitHub">
+                  <FaGithub />
+                  <span className="social-tooltip">GitHub</span>
+                </a>
+                <a href="https://www.instagram.com/the_raptor_rider_/" className="social-link instagram" title="Instagram">
+                  <FaInstagram />
+                  <span className="social-tooltip">Instagram</span>
+                </a>
               </div>
             </div>
           </div>
@@ -778,9 +773,10 @@ const Contact = ({
           margin-bottom: 1.5rem;
         }
 
-        .social-links {
+        .social-links-con {
           display: flex;
           gap: 1rem;
+          justify-content: end;
         }
 
         .social-link {
@@ -1316,9 +1312,7 @@ const Contact = ({
             display: none;
           }
 
-          .social-links {
-            justify-content: center;
-          }
+
 
           .contact-info-card,
           .contact-form-card {

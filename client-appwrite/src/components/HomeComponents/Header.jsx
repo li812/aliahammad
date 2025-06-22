@@ -127,7 +127,7 @@ const Header = () => {
                 </a>
               </div>
 
-              <div className="social-links hero-animate">
+              <div className="social-links-hd hero-animate">
                 <a href="https://www.linkedin.com/in/ali-ahammad-li0812" className="social-link linkedin" title="LinkedIn">
                   <FaLinkedin />
                   <span className="social-tooltip">LinkedIn</span>
@@ -595,9 +595,10 @@ const Header = () => {
           transform: translateX(5px);
         }
 
-        .social-links {
+        .social-links-hd {
           display: flex;
           gap: 1.5rem;
+          justify-content: center;
         }
 
         .social-link {
@@ -709,7 +710,7 @@ const Header = () => {
             justify-content: center;
           }
 
-          .social-links {
+          .social-links-hd {
             justify-content: center;
           }
         }

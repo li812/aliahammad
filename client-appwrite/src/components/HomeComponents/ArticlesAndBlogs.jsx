@@ -242,16 +242,6 @@ const ArticlesAndBlogs = ({
       className={`articles-section ${!animationsEnabled ? 'animations-disabled' : ''}`}
       ref={sectionRef}
     >
-      {/* Animation Kill Switch */}
-      <div className="animation-control">
-        <button
-          onClick={toggleAnimations}
-          className="animation-toggle-btn"
-          title={animationsEnabled ? 'Disable Animations' : 'Enable Animations'}
-        >
-          {animationsEnabled ? <FaPause /> : <FaPlay />}
-        </button>
-      </div>
 
       {/* Particle Background */}
       <div className="particle-container" ref={particleContainerRef}></div>
@@ -296,7 +286,7 @@ const ArticlesAndBlogs = ({
               <div className="article-image-container">
                 <div className="article-image">
                   <img src={article.image} alt={article.title} />
-                  <div className="image-overlay">
+                  <div className="image-overlay-art">
                     <div className="overlay-content">
                       <div className="category-badge">
                         {getCategoryIcon(article.category)}
@@ -707,13 +697,12 @@ const ArticlesAndBlogs = ({
           transform: scale(1.1);
         }
 
-        .image-overlay {
+        .image-overlay-art {
           position: absolute;
           top: 0;
           left: 0;
           right: 0;
           bottom: 0;
-          background: linear-gradient(135deg, rgba(0, 217, 255, 0.8), rgba(147, 51, 234, 0.8));
           display: flex;
           align-items: center;
           justify-content: center;
@@ -721,7 +710,7 @@ const ArticlesAndBlogs = ({
           transition: all 0.3s ease;
         }
 
-        .article-card:hover .image-overlay {
+        .article-card:hover .image-overlay-art {
           opacity: 1;
         }
 

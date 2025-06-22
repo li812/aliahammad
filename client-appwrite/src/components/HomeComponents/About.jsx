@@ -91,18 +91,22 @@ const About = () => {
                   </div>
                 </div>
               ))}
-            </div>
 
-            <div className="social-links">
-              <a href="https://www.linkedin.com/in/ali-ahammad-li0812" className="social-link linkedin">
-                <FaLinkedin />
-              </a>
-              <a href="https://github.com/li812" className="social-link github">
-                <FaGithub />
-              </a>
-              <a href="https://www.instagram.com/the_raptor_rider_/" className="social-link instagram">
-                <FaInstagram />
-              </a>
+
+              <div className="social-links-ab hero-animate">
+                <a href="https://www.linkedin.com/in/ali-ahammad-li0812" className="social-link linkedin" title="LinkedIn">
+                  <FaLinkedin />
+                  <span className="social-tooltip">LinkedIn</span>
+                </a>
+                <a href="https://github.com/li812" className="social-link github" title="GitHub">
+                  <FaGithub />
+                  <span className="social-tooltip">GitHub</span>
+                </a>
+                <a href="https://www.instagram.com/the_raptor_rider_/" className="social-link instagram" title="Instagram">
+                  <FaInstagram />
+                  <span className="social-tooltip">Instagram</span>
+                </a>
+              </div>
             </div>
           </div>
 
@@ -416,11 +420,13 @@ const About = () => {
           font-weight: 600;
         }
 
-        .social-links {
+        .social-links-ab {
           display: flex;
           gap: 1rem;
           padding: 1.5rem 2rem 2rem;
           justify-content: center;
+justify-content: center;
+margin-right: -300px;
         }
 
         .social-link {
