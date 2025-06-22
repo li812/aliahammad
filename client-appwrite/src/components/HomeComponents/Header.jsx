@@ -29,15 +29,15 @@ const Header = () => {
     if (typewriterRef.current) {
       const roles = [
         'Software Developer',
-        'Data Science Enthusiast', 
+        'Data Science Enthusiast',
         'AI Researcher',
         'Student',
         'Mentor',
       ];
-      
+
       // Clear the element content first
       typewriterRef.current.textContent = '';
-      
+
       createTypewriterEffect(typewriterRef.current, {
         words: roles, // Pass the array directly
         speed: 80,
@@ -66,7 +66,7 @@ const Header = () => {
     <header className="modern-hero" ref={heroRef}>
       {/* Particle Background */}
       <div className="particle-container" ref={particleContainerRef}></div>
-      
+
       {/* Dynamic Background */}
       <div className="hero-background">
         <div className="hero-overlay"></div>
@@ -81,7 +81,7 @@ const Header = () => {
           </div>
         </div>
       </div>
-      
+
       <div className="modern-container">
         <div className="hero-content">
           <div className="profile-section">
@@ -94,29 +94,29 @@ const Header = () => {
                   <div className="ring ring-3"></div>
                 </div>
                 <div className="glow-effect"></div>
-                
+
                 {/* Hover overlay effect */}
                 <div className="image-overlay">
-                    <img src="images/user-3.jpg" alt="Ali Ahammad" />
+                  <img src="images/user-3.jpg" alt="Ali Ahammad" />
                 </div>
               </div>
             </div>
-            
+
             <div className="hero-text">
               <div className="hero-greeting hero-animate">
                 <span className="greeting-text">Hello, I'm</span>
               </div>
-              
+
               <h1 className="hero-title hero-animate">
                 <span className="name-text">Ali Ahammad</span>
                 <div className="title-decoration"></div>
               </h1>
-              
+
               <div className="hero-subtitle hero-animate">
                 <span className="role-prefix">I'm a </span>
                 <span className="typing-text" ref={typewriterRef}></span>
               </div>
-              
+
               <div className="hero-actions hero-animate">
                 <a href="#fh5co-about" className="cta-button primary">
                   <span>More</span>
@@ -126,7 +126,7 @@ const Header = () => {
                   <span>Get In Touch</span>
                 </a>
               </div>
-              
+
               <div className="social-links hero-animate">
                 <a href="https://www.linkedin.com/in/ali-ahammad-li0812" className="social-link linkedin" title="LinkedIn">
                   <FaLinkedin />
@@ -284,7 +284,6 @@ const Header = () => {
           cursor: pointer;
           transition: all 0.4s ease;
           top: -3rem;
-left: -3rem;
         }
 
         .image-container-hd:hover {
@@ -722,3 +721,9 @@ left: -3rem;
 };
 
 export default Header;
+
+
+
+
+
+
