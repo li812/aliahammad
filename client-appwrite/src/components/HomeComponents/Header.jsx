@@ -82,8 +82,8 @@ const Header = () => {
         </div>
       </div>
 
-      <div className="modern-container">
-        <div className="hero-content">
+      <div className="header-modern-container">
+        <div className="header-hero-content">
           <div className="profile-section">
             <div className="profile-image-large hero-animate">
               <div className="image-container-hd">
@@ -258,7 +258,7 @@ const Header = () => {
           animation-delay: 4s;
         }
 
-        .hero-content {
+        .header-hero-content {
           position: relative;
           z-index: 2;
           width: 100%;
@@ -284,6 +284,7 @@ const Header = () => {
           cursor: pointer;
           transition: all 0.4s ease;
           top: -3rem;
+          left: -3rem;
         }
 
         .image-container-hd:hover {
@@ -514,6 +515,16 @@ const Header = () => {
           max-width: 600px;
         }
 
+        .header-modern-container {
+          width: 100%;
+          max-width: 1200px;
+          margin: 0 auto;
+          justify-content: center;
+          align-items: center; 
+          padding: 0 90px;
+          display: flex;
+          position: relative;
+        }
         .hero-actions {
           display: flex;
           gap: 1.5rem;
