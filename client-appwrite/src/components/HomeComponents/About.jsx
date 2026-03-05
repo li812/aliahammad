@@ -127,14 +127,34 @@ const About = () => {
 
             <div className="bio-content">
               <p>
-                I'm a <span className="highlight">Software Engineer</span>, <span className="highlight">AI Researcher</span>, <span className="highlight">Data Science Enthusiast</span> specializing in production-grade AI systems — building the kind of intelligent backends that actually ship to real users, not just demos.
+                I'm a <span className="highlight">Software Engineer</span>,{" "}
+                <span className="highlight">AI Researcher</span>, and{" "}
+                <span className="highlight">Data Science Enthusiast</span> specializing in
+                production-grade AI systems — building the kind of intelligent backends that
+                actually ship to real users, not just demos. I thrive at the intersection of
+                language models, backend architecture, and real-world deployment.
               </p>
               <p>
-                Currently at Advanced Millennium Technologies Pvt. Ltd., my work revolves around RAG pipelines, secured MCP servers, Agentic AI tools, LLM orchestration, fine-tuning LLMs and multilingual NLP models (BERT, InfoXLM).
-              </p>             
-              <p>
-                Driven by an unwavering passion for leveraging technology to solve intricate problems and foster innovation, I am committed to making meaningful contributions in every endeavor I undertake.
+                Currently at Advanced Millennium Technologies Pvt. Ltd., my work revolves
+                around RAG pipelines, secured MCP servers, Agentic AI tools, LLM
+                orchestration, fine-tuning LLMs and multilingual NLP models (BERT, InfoXLM).
+                I deploy and scale these systems on GCP using Docker and Kubernetes, ensuring
+                they're production-ready from day one.
               </p>
+              <p>
+                Beyond my full-time role, I freelance on full-stack, IoT, and AI integration
+                projects — certified by <span className="highlight">Anthropic</span>,{" "}
+                <span className="highlight">IBM</span>, and{" "}
+                <span className="highlight">Google</span> across MCP, GenAI, and
+                Cybersecurity.
+              </p>
+              <p>
+                Driven by an unwavering passion for leveraging technology to solve intricate
+                problems and foster innovation, I am committed to making meaningful
+                contributions in every endeavor I undertake — whether it's a production AI
+                pipeline, a freelance build, or an open-source experiment.
+              </p>
+
 
               <div className="stats-container">
                 <div className="stat-item">
