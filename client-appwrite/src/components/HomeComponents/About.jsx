@@ -127,11 +127,11 @@ const About = () => {
 
             <div className="bio-content">
               <p>
-                I am a <span className="highlight">Data Science Enthusiast</span>, <span className="highlight">AI Researcher</span>, and dedicated student currently pursuing a Masters in Computer Application. With a robust background in developing cutting-edge machine learning models for predictive analytics, computer vision, and natural language processing (NLP), I bring a wealth of experience to any project.
+                I'm a <span className="highlight">Software Engineer</span>, <span className="highlight">AI Researcher</span>, <span className="highlight">Data Science Enthusiast</span> specializing in production-grade AI systems — building the kind of intelligent backends that actually ship to real users, not just demos.
               </p>
               <p>
-                Throughout my professional journey, I have demonstrated proficiency in data collection, preprocessing, and analysis garnered from diverse sources, including Marine Automation Systems and Aerial Data Sources. My expertise extends to the realm of <span className="highlight">Full Stack Development</span>, where I have adeptly designed, developed, and deployed websites utilizing technologies such as the Laravel framework.
-              </p>
+                Currently at Advanced Millennium Technologies Pvt. Ltd., my work revolves around RAG pipelines, secured MCP servers, Agentic AI tools, LLM orchestration, fine-tuning LLMs and multilingual NLP models (BERT, InfoXLM).
+              </p>             
               <p>
                 Driven by an unwavering passion for leveraging technology to solve intricate problems and foster innovation, I am committed to making meaningful contributions in every endeavor I undertake.
               </p>
